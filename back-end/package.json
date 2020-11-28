@@ -4,8 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "node util/test.js",
-    "update-catalog": "node util/updateSubjectCatalog.js"
+    "test": "node util/command/test.js",
+    "update-catalog": "node util/command/updateSubjectCatalog.js"
   },
   "author": "",
   "license": "ISC",
