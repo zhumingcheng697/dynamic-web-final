@@ -63,11 +63,13 @@ async function main(callback, debug = false) {
       console.log("Started running callback");
     }
 
-    await callback(firebase);
+    const res = await callback(firebase);
 
     if (debug) {
       console.log("Finished running callback");
     }
+
+    return res;
   } catch (e) {
     console.error(e);
   } finally {
