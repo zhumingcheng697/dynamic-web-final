@@ -10,7 +10,7 @@ firebaseHelper(async (firebase) => {
     await db
       .collection("subjectCatalog")
       .doc(schoolCode)
-      .set(subjectCatalog[schoolCode])
+      .set(subjectCatalog[schoolCode], { merge: true })
       .then(() => {
         console.log(`"${schoolCode}" set`);
       })
