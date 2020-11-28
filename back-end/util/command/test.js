@@ -6,9 +6,7 @@ const classInfo = require("../core/classInfo");
 const classSchedule = require("../core/classSchedule");
 
 (async function main() {
-  const util = require("util");
-
-  let log = (e) => console.log(util.inspect(e));
+  const log = require("../helpers/log");
 
   for (const classCode of [
     "",
@@ -21,7 +19,7 @@ const classSchedule = require("../core/classSchedule");
     "iosut",
     "artshu13x",
     "cs-uy 4",
-    "dm-uy 1123",
+    "csuy3314",
   ]) {
     log(classCode);
     log(ClassCode.normalize(classCode));
