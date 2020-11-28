@@ -1,7 +1,7 @@
 const firebaseHelper = require("../helpers/firebaseHelper");
 
 firebaseHelper(async (firebase) => {
-  const subjectCatalog = await require("../subjectCatalog")();
+  const subjectCatalog = await require("../core/subjectCatalog")();
   console.log("Subject catalog loaded");
 
   const db = firebase.default.firestore();
