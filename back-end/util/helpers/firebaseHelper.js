@@ -56,7 +56,10 @@ async function logout(debug = false) {
  */
 async function main(callback, debug = false) {
   try {
-    firebase.default.initializeApp(firebaseConfig);
+    if (!firebase.default.apps.length) {
+      firebase.default.initializeApp(firebaseConfig);
+    }
+
     await login(debug);
 
     if (debug) {

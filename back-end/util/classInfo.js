@@ -88,10 +88,11 @@ async function getClassInfoByCode(classCode, storeErrors = false) {
  * Gets the info of the class from coursicle
  *
  * @param {string} classCode
+ * @param {boolean} storeErrors
  * @returns {Promise<object>}
  */
-async function getClassInfoByStr(classCode) {
-  return await getClassInfoByCode(parseClassCode(classCode));
+async function getClassInfoByStr(classCode, storeErrors = false) {
+  return await getClassInfoByCode(parseClassCode(classCode, storeErrors));
 }
 
 module.exports = { getClassInfoByCode, getClassInfoByStr };
