@@ -2,7 +2,23 @@ const ClassCode = require("./util/helpers/ClassCode");
 const firebaseHelper = require("./util/helpers/firebaseHelper");
 const { getSubjectInfoByPrefix } = require("./util/core/subjectInfo");
 
+const autoRefreshLimit = 1; // refresh at most once per hour
+
+/**
+ * Loads and updates class and subject info
+ *
+ * @param {{subjectCode: string, schoolCode: string, classNumber: string}} classCode
+ * @param {boolean} storeErrors
+ * @returns {Promise<object>}
+ */
 async function loadClassByCode(classCode, storeErrors = false) {
+  /**
+   * Loads class info from coursicle and updates db
+   *
+   * @param {{schoolName: string, subjectName: string}} subjectInfo
+   * @param {boolean} storeErrors
+   * @returns {Promise<object>}
+   */
   async function updateClassInfo(subjectInfo, storeErrors = false) {
     try {
       const { getClassInfoByCode } = require("./util/core/classInfo");
@@ -73,7 +89,8 @@ async function loadClassByCode(classCode, storeErrors = false) {
           // check if the info is from more than 1 hour ago
           if (
             classInfo &&
-            new Date() - classInfo["updatedAt"].toDate() > 60 * 60 * 1000
+            new Date() - classInfo["updatedAt"].toDate() >
+              autoRefreshLimit * 60 * 60 * 1000
           ) {
             updateClassInfo(subjectInfo, storeErrors);
           }
@@ -97,7 +114,15 @@ async function loadClassByCode(classCode, storeErrors = false) {
   }
 }
 
-(async () => {
-  const log = require("./util/helpers/log");
-  log(await loadClassByCode(ClassCode.parse("csuy3314"), true));
-})();
+/**
+ * Loads and updates class and subject info
+ *
+ * @param {string} classCode
+ * @param {boolean} storeErrors
+ * @returns {Promise<object>}
+ */
+async function loadClassByStr(classCode, storeErrors = false) {
+  return await loadClassByCode(parseClassCode(classCode, storeErrors));
+}
+
+module.exports = { loadClassByCode, loadClassByStr };
