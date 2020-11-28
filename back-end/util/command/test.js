@@ -1,9 +1,9 @@
 const ClassCode = require("../helpers/ClassCode");
 const ClassPrefix = require("../helpers/ClassPrefix");
 
-const subjectInfo = require("../subjectInfo");
-const classInfo = require("../classInfo");
-const classSchedule = require("../classSchedule");
+const subjectInfo = require("../core/subjectInfo");
+const classInfo = require("../core/classInfo");
+const classSchedule = require("../core/classSchedule");
 
 (async function main() {
   const util = require("util");

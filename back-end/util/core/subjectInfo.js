@@ -1,5 +1,5 @@
-const firebaseHelper = require("./helpers/firebaseHelper");
-const parseClassPrefix = require("./helpers/ClassPrefix").parse;
+const firebaseHelper = require("../helpers/firebaseHelper");
+const parseClassPrefix = require("../helpers/ClassPrefix").parse;
 
 /**
  * Gets the info of the subject from Albert

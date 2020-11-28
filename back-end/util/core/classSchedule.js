@@ -1,5 +1,5 @@
 const puppeteer = require("puppeteer");
-const parseClassCode = require("./helpers/ClassCode").parse;
+const parseClassCode = require("../helpers/ClassCode").parse;
 
 /**
  * Gets the schedule of the class from coursicle
