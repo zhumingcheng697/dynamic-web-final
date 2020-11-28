@@ -1,5 +1,7 @@
 const ClassCode = require("../helpers/ClassCode");
 const ClassPrefix = require("../helpers/ClassPrefix");
+
+const subjectInfo = require("../subjectInfo");
 const classInfo = require("../classInfo");
 const classSchedule = require("../classSchedule");
 
@@ -16,6 +18,7 @@ const classSchedule = require("../classSchedule");
     false,
     () => {},
     "uihr(*&&^%$uifherf",
+    "iosut",
     "artshu13x",
     "cs-uy 4",
     "dm-uy 1123",
@@ -25,6 +28,7 @@ const classSchedule = require("../classSchedule");
     log(ClassCode.parse(classCode));
     log(ClassPrefix.normalize(classCode));
     log(ClassPrefix.parse(classCode));
+    log(await subjectInfo.getSubjectInfoByStr(classCode));
     log(await classInfo.getClassInfoByStr(classCode));
     log(await classSchedule.getClassScheduleByStr(classCode));
     log("------------");
