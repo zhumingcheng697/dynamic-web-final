@@ -14,7 +14,7 @@ const firebaseHelper = require("../helpers/firebaseHelper");
  * @param {string} instructor
  * @param {string} comment
  * @param {boolean} storeErrors
- * @returns {Promise<number|object>}
+ * @returns {Promise<number|Error>}
  */
 async function postRatingByCodeAndData(
   classCode,
@@ -89,7 +89,7 @@ async function postRatingByCodeAndData(
         .doc(ClassCode.stringify(classCode))
         .update(updateInfo);
 
-      rating["updatedAt"] = firebase.default.firestore.Timestamp.fromDate(
+      rating["postedAt"] = firebase.default.firestore.Timestamp.fromDate(
         new Date()
       );
 
@@ -115,7 +115,7 @@ async function postRatingByCodeAndData(
  * @param {string} instructor
  * @param {string} comment
  * @param {boolean} storeErrors
- * @returns {Promise<number|object>}
+ * @returns {Promise<number|Error>}
  */
 async function postRatingByStrAndData(
   classCode,
