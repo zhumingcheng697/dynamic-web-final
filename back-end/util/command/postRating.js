@@ -1,4 +1,5 @@
 const ClassCode = require("../helpers/ClassCode");
+const Timestamp = require("../helpers/Timestamp");
 const firebaseHelper = require("../helpers/firebaseHelper");
 
 /**
@@ -51,6 +52,7 @@ async function postRatingByCodeAndData(
     uid,
     instructor,
     comment,
+    postedAt: Timestamp.now(),
   };
 
   try {
@@ -58,31 +60,16 @@ async function postRatingByCodeAndData(
       const db = firebase.default.firestore();
 
       const updateInfo = {};
-
-      updateInfo[
-        `ratingSummary.enjoyment.${enjoyment}`
-      ] = firebase.default.firestore.FieldValue.increment(1);
-
-      updateInfo[
-        `ratingSummary.value.${value}`
-      ] = firebase.default.firestore.FieldValue.increment(1);
-
-      updateInfo[
-        `ratingSummary.difficulty.${difficulty}`
-      ] = firebase.default.firestore.FieldValue.increment(1);
-
-      updateInfo[
-        `ratingSummary.work.${work}`
-      ] = firebase.default.firestore.FieldValue.increment(1);
+      const incrementBy1 = firebase.default.firestore.FieldValue.increment(1);
+      updateInfo[`ratingSummary.enjoyment.${enjoyment}`] = incrementBy1;
+      updateInfo[`ratingSummary.value.${value}`] = incrementBy1;
+      updateInfo[`ratingSummary.difficulty.${difficulty}`] = incrementBy1;
+      updateInfo[`ratingSummary.work.${work}`] = incrementBy1;
 
       await db
         .collection("classes")
         .doc(ClassCode.stringify(classCode))
         .update(updateInfo);
-
-      rating["postedAt"] = firebase.default.firestore.Timestamp.fromDate(
-        new Date()
-      );
 
       await db.collection("ratings").doc().set(rating);
 

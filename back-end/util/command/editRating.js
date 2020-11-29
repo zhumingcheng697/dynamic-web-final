@@ -1,4 +1,5 @@
 const ClassCode = require("../helpers/ClassCode");
+const Timestamp = require("../helpers/Timestamp");
 const firebaseHelper = require("../helpers/firebaseHelper");
 
 /**
@@ -62,54 +63,37 @@ async function editRatingByCodeAndData(
     work: newWork,
     instructor,
     comment,
+    updatedAt: Timestamp.now(),
   };
 
   try {
     return await firebaseHelper(async (firebase) => {
       const db = firebase.default.firestore();
 
-      rating["updatedAt"] = firebase.default.firestore.Timestamp.fromDate(
-        new Date()
-      );
-
       await db.collection("ratings").doc(id).update(rating);
 
       const updateInfo = {};
+      const decrementBy1 = firebase.default.firestore.FieldValue.increment(-1);
+      const incrementBy1 = firebase.default.firestore.FieldValue.increment(1);
 
       if (oldEnjoyment !== newEnjoyment) {
-        updateInfo[
-          `ratingSummary.enjoyment.${oldEnjoyment}`
-        ] = firebase.default.firestore.FieldValue.increment(-1);
-        updateInfo[
-          `ratingSummary.enjoyment.${newEnjoyment}`
-        ] = firebase.default.firestore.FieldValue.increment(1);
+        updateInfo[`ratingSummary.enjoyment.${oldEnjoyment}`] = decrementBy1;
+        updateInfo[`ratingSummary.enjoyment.${newEnjoyment}`] = incrementBy1;
       }
 
       if (oldValue !== newValue) {
-        updateInfo[
-          `ratingSummary.value.${oldValue}`
-        ] = firebase.default.firestore.FieldValue.increment(-1);
-        updateInfo[
-          `ratingSummary.value.${newValue}`
-        ] = firebase.default.firestore.FieldValue.increment(1);
+        updateInfo[`ratingSummary.value.${oldValue}`] = decrementBy1;
+        updateInfo[`ratingSummary.value.${newValue}`] = incrementBy1;
       }
 
       if (oldDifficulty !== newDifficulty) {
-        updateInfo[
-          `ratingSummary.difficulty.${oldDifficulty}`
-        ] = firebase.default.firestore.FieldValue.increment(-1);
-        updateInfo[
-          `ratingSummary.difficulty.${newDifficulty}`
-        ] = firebase.default.firestore.FieldValue.increment(1);
+        updateInfo[`ratingSummary.difficulty.${oldDifficulty}`] = decrementBy1;
+        updateInfo[`ratingSummary.difficulty.${newDifficulty}`] = incrementBy1;
       }
 
       if (oldWork !== newWork) {
-        updateInfo[
-          `ratingSummary.work.${oldWork}`
-        ] = firebase.default.firestore.FieldValue.increment(-1);
-        updateInfo[
-          `ratingSummary.work.${newWork}`
-        ] = firebase.default.firestore.FieldValue.increment(1);
+        updateInfo[`ratingSummary.work.${oldWork}`] = decrementBy1;
+        updateInfo[`ratingSummary.work.${newWork}`] = incrementBy1;
       }
 
       if (Object.keys(updateInfo).length) {

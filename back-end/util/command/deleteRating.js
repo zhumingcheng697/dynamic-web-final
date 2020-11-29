@@ -43,22 +43,11 @@ async function deleteRatingByCodeAndData(
       await db.collection("ratings").doc(id).delete();
 
       const updateInfo = {};
-
-      updateInfo[
-        `ratingSummary.enjoyment.${oldEnjoyment}`
-      ] = firebase.default.firestore.FieldValue.increment(-1);
-
-      updateInfo[
-        `ratingSummary.value.${oldValue}`
-      ] = firebase.default.firestore.FieldValue.increment(-1);
-
-      updateInfo[
-        `ratingSummary.difficulty.${oldDifficulty}`
-      ] = firebase.default.firestore.FieldValue.increment(-1);
-
-      updateInfo[
-        `ratingSummary.work.${oldWork}`
-      ] = firebase.default.firestore.FieldValue.increment(-1);
+      const decrementBy1 = firebase.default.firestore.FieldValue.increment(-1);
+      updateInfo[`ratingSummary.enjoyment.${oldEnjoyment}`] = decrementBy1;
+      updateInfo[`ratingSummary.value.${oldValue}`] = decrementBy1;
+      updateInfo[`ratingSummary.difficulty.${oldDifficulty}`] = decrementBy1;
+      updateInfo[`ratingSummary.work.${oldWork}`] = decrementBy1;
 
       await db
         .collection("classes")

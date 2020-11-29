@@ -1,4 +1,5 @@
 const ClassCode = require("../helpers/ClassCode");
+const Timestamp = require("../helpers/Timestamp");
 const firebaseHelper = require("../helpers/firebaseHelper");
 const { getSubjectInfoByPrefix } = require("../core/subjectInfo");
 const { getClassInfoByCode } = require("../core/classInfo");
@@ -34,6 +35,7 @@ async function loadClassByCode(classCode, storeErrors = false) {
       if (classInfo && Object.keys(classInfo).length) {
         // get the class schedule if it exists on coursicle
         classInfo["schedule"] = await getClassScheduleByCode(classCode);
+        classInfo["updatedAt"] = Timestamp.now();
         Object.assign(classInfo, classCode);
 
         if (rewriteRatings) {
@@ -56,10 +58,6 @@ async function loadClassByCode(classCode, storeErrors = false) {
         // upload fetched classInfo to db
         firebaseHelper(async (firebase) => {
           const db = firebase.default.firestore();
-
-          classInfo[
-            "updatedAt"
-          ] = firebase.default.firestore.Timestamp.fromDate(new Date());
 
           await db
             .collection("classes")
