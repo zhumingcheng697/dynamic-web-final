@@ -7,7 +7,8 @@ const firebaseHelper = require("../helpers/firebaseHelper");
  * @param {{subjectCode: string, schoolCode: string, classNumber: string}} classCode
  * @param {boolean} recommend
  * @param {number} difficulty
- * @param {number} usefulness
+ * @param {number} work
+ * @param {number} value
  * @param {number} grades
  * @param {string} uid
  * @param {string} instructor
@@ -19,7 +20,8 @@ async function postRatingByCode(
   classCode,
   recommend,
   difficulty,
-  usefulness,
+  work,
+  value,
   grades,
   uid,
   instructor = "",
@@ -38,7 +40,8 @@ async function postRatingByCode(
     typeof classNumber !== "string" ||
     typeof recommend !== "boolean" ||
     ![1, 2, 3, 4, 5].includes(difficulty) ||
-    ![1, 2, 3, 4, 5].includes(usefulness) ||
+    ![1, 2, 3, 4, 5].includes(work) ||
+    ![1, 2, 3, 4, 5].includes(value) ||
     ![1, 2, 3, 4, 5].includes(grades) ||
     typeof uid !== "string" ||
     typeof instructor !== "string" ||
@@ -51,7 +54,8 @@ async function postRatingByCode(
     classCode: ClassCode.stringify(classCode),
     recommend,
     difficulty,
-    usefulness,
+    work,
+    value,
     grades,
     uid,
   };
@@ -76,7 +80,10 @@ async function postRatingByCode(
         `ratingSummary.difficulty.${difficulty}`
       ] = firebase.default.firestore.FieldValue.increment(1);
       updateInfo[
-        `ratingSummary.usefulness.${usefulness}`
+        `ratingSummary.work.${work}`
+      ] = firebase.default.firestore.FieldValue.increment(1);
+      updateInfo[
+        `ratingSummary.value.${value}`
       ] = firebase.default.firestore.FieldValue.increment(1);
       updateInfo[
         `ratingSummary.grades.${grades}`
@@ -102,7 +109,8 @@ async function postRatingByCode(
  * @param {string} classCode
  * @param {boolean} recommend
  * @param {number} difficulty
- * @param {number} usefulness
+ * @param {number} work
+ * @param {number} value
  * @param {number} grades
  * @param {string} uid
  * @param {string} instructor
@@ -114,7 +122,8 @@ async function postRatingByStr(
   classCode,
   recommend,
   difficulty,
-  usefulness,
+  work,
+  value,
   grades,
   uid,
   instructor = "",
@@ -125,7 +134,8 @@ async function postRatingByStr(
     ClassCode.parse(classCode),
     recommend,
     difficulty,
-    usefulness,
+    work,
+    value,
     grades,
     uid,
     instructor,
