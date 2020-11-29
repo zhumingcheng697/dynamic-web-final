@@ -75,7 +75,10 @@ async function main(callback, debug = false) {
 
     return res;
   } catch (e) {
-    console.error(e);
+    if (debug) {
+      console.error(e);
+    }
+    return e;
   } finally {
     await logout(debug);
   }
