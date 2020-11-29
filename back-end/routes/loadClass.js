@@ -1,6 +1,6 @@
-const ClassCode = require("./util/helpers/ClassCode");
-const firebaseHelper = require("./util/helpers/firebaseHelper");
-const { getSubjectInfoByPrefix } = require("./util/core/subjectInfo");
+const ClassCode = require("../util/helpers/ClassCode");
+const firebaseHelper = require("../util/helpers/firebaseHelper");
+const { getSubjectInfoByPrefix } = require("../util/core/subjectInfo");
 
 const autoRefreshLimit = 1; // refresh at most once per hour
 
@@ -21,16 +21,37 @@ async function loadClassByCode(classCode, storeErrors = false) {
    */
   async function updateClassInfo(subjectInfo, storeErrors = false) {
     try {
-      const { getClassInfoByCode } = require("./util/core/classInfo");
+      const { getClassInfoByCode } = require("../util/core/classInfo");
       const classInfo = await getClassInfoByCode(classCode);
 
       // check if the class info exists on coursicle
       if (classInfo && Object.keys(classInfo).length) {
-        const { getClassScheduleByCode } = require("./util/core/classSchedule");
+        const {
+          getClassScheduleByCode,
+        } = require("../util/core/classSchedule");
 
         // get the class schedule if it exists on coursicle
         classInfo["schedule"] = await getClassScheduleByCode(classCode);
         Object.assign(classInfo, classCode);
+
+        if (!classInfo["ratingSummary"]) {
+          const emptyMap = {
+            1: 0,
+            2: 0,
+            3: 0,
+            4: 0,
+            5: 0,
+          };
+
+          const ratingSummary = {
+            recommend: { true: 0, false: 0 },
+            difficulty: Object.assign({}, emptyMap),
+            usefulness: Object.assign({}, emptyMap),
+            grades: Object.assign({}, emptyMap),
+          };
+
+          classInfo["ratingSummary"] = ratingSummary;
+        }
 
         // upload fetched classInfo to db
         firebaseHelper(async (firebase) => {
@@ -122,7 +143,7 @@ async function loadClassByCode(classCode, storeErrors = false) {
  * @returns {Promise<object>}
  */
 async function loadClassByStr(classCode, storeErrors = false) {
-  return await loadClassByCode(parseClassCode(classCode, storeErrors));
+  return await loadClassByCode(ClassCode.parse(classCode, storeErrors));
 }
 
 module.exports = { loadClassByCode, loadClassByStr };
