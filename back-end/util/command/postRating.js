@@ -5,10 +5,10 @@ const firebaseHelper = require("../helpers/firebaseHelper");
  * Posts a new rating
  *
  * @param {{subjectCode: string, schoolCode: string, classNumber: string}} classCode
+ * @param {number} enjoyment
+ * @param {number} value
  * @param {number} difficulty
  * @param {number} work
- * @param {number} value
- * @param {number} enjoyment
  * @param {string} uid
  * @param {string} instructor
  * @param {string} comment
@@ -17,10 +17,10 @@ const firebaseHelper = require("../helpers/firebaseHelper");
  */
 async function postRatingByCodeAndData(
   classCode,
+  enjoyment,
+  value,
   difficulty,
   work,
-  value,
-  enjoyment,
   uid,
   instructor = "",
   comment = "",
@@ -31,10 +31,10 @@ async function postRatingByCodeAndData(
   }
 
   if (
+    ![1, 2, 3, 4, 5].includes(enjoyment) ||
+    ![1, 2, 3, 4, 5].includes(value) ||
     ![1, 2, 3, 4, 5].includes(difficulty) ||
     ![1, 2, 3, 4, 5].includes(work) ||
-    ![1, 2, 3, 4, 5].includes(value) ||
-    ![1, 2, 3, 4, 5].includes(enjoyment) ||
     typeof uid !== "string" ||
     typeof instructor !== "string" ||
     typeof comment !== "string"
@@ -44,10 +44,10 @@ async function postRatingByCodeAndData(
 
   const rating = {
     classCode: ClassCode.stringify(classCode),
+    enjoyment,
+    value,
     difficulty,
     work,
-    value,
-    enjoyment,
     uid,
     instructor,
     comment,
@@ -60,11 +60,7 @@ async function postRatingByCodeAndData(
       const updateInfo = {};
 
       updateInfo[
-        `ratingSummary.difficulty.${difficulty}`
-      ] = firebase.default.firestore.FieldValue.increment(1);
-
-      updateInfo[
-        `ratingSummary.work.${work}`
+        `ratingSummary.enjoyment.${enjoyment}`
       ] = firebase.default.firestore.FieldValue.increment(1);
 
       updateInfo[
@@ -72,7 +68,11 @@ async function postRatingByCodeAndData(
       ] = firebase.default.firestore.FieldValue.increment(1);
 
       updateInfo[
-        `ratingSummary.enjoyment.${enjoyment}`
+        `ratingSummary.difficulty.${difficulty}`
+      ] = firebase.default.firestore.FieldValue.increment(1);
+
+      updateInfo[
+        `ratingSummary.work.${work}`
       ] = firebase.default.firestore.FieldValue.increment(1);
 
       await db
@@ -97,10 +97,10 @@ async function postRatingByCodeAndData(
  * Posts a new rating
  *
  * @param {string} classCode
+ * @param {number} enjoyment
+ * @param {number} value
  * @param {number} difficulty
  * @param {number} work
- * @param {number} value
- * @param {number} enjoyment
  * @param {string} uid
  * @param {string} instructor
  * @param {string} comment
@@ -109,10 +109,10 @@ async function postRatingByCodeAndData(
  */
 async function postRatingByStrAndData(
   classCode,
+  enjoyment,
+  value,
   difficulty,
   work,
-  value,
-  enjoyment,
   uid,
   instructor = "",
   comment = "",
@@ -120,10 +120,10 @@ async function postRatingByStrAndData(
 ) {
   return await postRatingByCodeAndData(
     ClassCode.parse(classCode),
+    enjoyment,
+    value,
     difficulty,
     work,
-    value,
-    enjoyment,
     uid,
     instructor,
     comment,

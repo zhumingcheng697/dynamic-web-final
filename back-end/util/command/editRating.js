@@ -6,14 +6,14 @@ const firebaseHelper = require("../helpers/firebaseHelper");
  *
  * @param {{subjectCode: string, schoolCode: string, classNumber: string}} classCode
  * @param {string} id
+ * @param {number} oldEnjoyment
+ * @param {number} oldValue
  * @param {number} oldDifficulty
  * @param {number} oldWork
- * @param {number} oldValue
- * @param {number} oldEnjoyment
+ * @param {number} newEnjoyment
+ * @param {number} newValue
  * @param {number} newDifficulty
  * @param {number} newWork
- * @param {number} newValue
- * @param {number} newEnjoyment
  * @param {string} instructor
  * @param {string} comment
  * @param {boolean} storeErrors
@@ -22,14 +22,14 @@ const firebaseHelper = require("../helpers/firebaseHelper");
 async function editRatingByCodeAndData(
   classCode,
   id,
+  oldEnjoyment,
+  oldValue,
   oldDifficulty,
   oldWork,
-  oldValue,
-  oldEnjoyment,
+  newEnjoyment,
+  newValue,
   newDifficulty,
   newWork,
-  newValue,
-  newEnjoyment,
   instructor = "",
   comment = "",
   storeErrors = false
@@ -40,14 +40,14 @@ async function editRatingByCodeAndData(
 
   if (
     typeof id !== "string" ||
+    ![1, 2, 3, 4, 5].includes(oldEnjoyment) ||
+    ![1, 2, 3, 4, 5].includes(oldValue) ||
     ![1, 2, 3, 4, 5].includes(oldDifficulty) ||
     ![1, 2, 3, 4, 5].includes(oldWork) ||
-    ![1, 2, 3, 4, 5].includes(oldValue) ||
-    ![1, 2, 3, 4, 5].includes(oldEnjoyment) ||
+    ![1, 2, 3, 4, 5].includes(newEnjoyment) ||
+    ![1, 2, 3, 4, 5].includes(newValue) ||
     ![1, 2, 3, 4, 5].includes(newDifficulty) ||
     ![1, 2, 3, 4, 5].includes(newWork) ||
-    ![1, 2, 3, 4, 5].includes(newValue) ||
-    ![1, 2, 3, 4, 5].includes(newEnjoyment) ||
     typeof instructor !== "string" ||
     typeof comment !== "string"
   ) {
@@ -56,10 +56,10 @@ async function editRatingByCodeAndData(
 
   const rating = {
     classCode: ClassCode.stringify(classCode),
+    enjoyment: newEnjoyment,
+    value: newValue,
     difficulty: newDifficulty,
     work: newWork,
-    value: newValue,
-    enjoyment: newEnjoyment,
     instructor,
     comment,
   };
@@ -76,6 +76,24 @@ async function editRatingByCodeAndData(
 
       const updateInfo = {};
 
+      if (oldEnjoyment !== newEnjoyment) {
+        updateInfo[
+          `ratingSummary.enjoyment.${oldEnjoyment}`
+        ] = firebase.default.firestore.FieldValue.increment(-1);
+        updateInfo[
+          `ratingSummary.enjoyment.${newEnjoyment}`
+        ] = firebase.default.firestore.FieldValue.increment(1);
+      }
+
+      if (oldValue !== newValue) {
+        updateInfo[
+          `ratingSummary.value.${oldValue}`
+        ] = firebase.default.firestore.FieldValue.increment(-1);
+        updateInfo[
+          `ratingSummary.value.${newValue}`
+        ] = firebase.default.firestore.FieldValue.increment(1);
+      }
+
       if (oldDifficulty !== newDifficulty) {
         updateInfo[
           `ratingSummary.difficulty.${oldDifficulty}`
@@ -91,24 +109,6 @@ async function editRatingByCodeAndData(
         ] = firebase.default.firestore.FieldValue.increment(-1);
         updateInfo[
           `ratingSummary.work.${newWork}`
-        ] = firebase.default.firestore.FieldValue.increment(1);
-      }
-
-      if (oldValue !== newValue) {
-        updateInfo[
-          `ratingSummary.value.${oldValue}`
-        ] = firebase.default.firestore.FieldValue.increment(-1);
-        updateInfo[
-          `ratingSummary.value.${newValue}`
-        ] = firebase.default.firestore.FieldValue.increment(1);
-      }
-
-      if (oldEnjoyment !== newEnjoyment) {
-        updateInfo[
-          `ratingSummary.enjoyment.${oldEnjoyment}`
-        ] = firebase.default.firestore.FieldValue.increment(-1);
-        updateInfo[
-          `ratingSummary.enjoyment.${newEnjoyment}`
         ] = firebase.default.firestore.FieldValue.increment(1);
       }
 
@@ -131,14 +131,14 @@ async function editRatingByCodeAndData(
  *
  * @param {string} classCode
  * @param {string} id
+ * @param {number} oldEnjoyment
+ * @param {number} oldValue
  * @param {number} oldDifficulty
  * @param {number} oldWork
- * @param {number} oldValue
- * @param {number} oldEnjoyment
+ * @param {number} newEnjoyment
+ * @param {number} newValue
  * @param {number} newDifficulty
  * @param {number} newWork
- * @param {number} newValue
- * @param {number} newEnjoyment
  * @param {string} instructor
  * @param {string} comment
  * @param {boolean} storeErrors
@@ -147,14 +147,14 @@ async function editRatingByCodeAndData(
 async function editRatingByStrAndData(
   classCode,
   id,
+  oldEnjoyment,
+  oldValue,
   oldDifficulty,
   oldWork,
-  oldValue,
-  oldEnjoyment,
+  newEnjoyment,
+  newValue,
   newDifficulty,
   newWork,
-  newValue,
-  newEnjoyment,
   instructor = "",
   comment = "",
   storeErrors = false
@@ -162,14 +162,14 @@ async function editRatingByStrAndData(
   return await editRatingByCodeAndData(
     ClassCode.parse(classCode),
     id,
+    oldEnjoyment,
+    oldValue,
     oldDifficulty,
     oldWork,
-    oldValue,
-    oldEnjoyment,
+    newEnjoyment,
+    newValue,
     newDifficulty,
     newWork,
-    newValue,
-    newEnjoyment,
     instructor,
     comment,
     storeErrors
@@ -180,10 +180,10 @@ async function editRatingByStrAndData(
  * Edits a rating
  *
  * @param {string} id
+ * @param {number} newEnjoyment
+ * @param {number} newValue
  * @param {number} newDifficulty
  * @param {number} newWork
- * @param {number} newValue
- * @param {number} newEnjoyment
  * @param {string} instructor
  * @param {string} comment
  * @param {boolean} storeErrors
@@ -191,10 +191,10 @@ async function editRatingByStrAndData(
  */
 async function editRatingByIdAndData(
   id,
+  newEnjoyment,
+  newValue,
   newDifficulty,
   newWork,
-  newValue,
-  newEnjoyment,
   instructor = "",
   comment = "",
   storeErrors = false
@@ -212,22 +212,22 @@ async function editRatingByIdAndData(
       if (ratingDoc && ratingDoc.exists) {
         const {
           classCode,
+          enjoyment: oldEnjoyment,
+          value: oldValue,
           difficulty: oldDifficulty,
           work: oldWork,
-          value: oldValue,
-          enjoyment: oldEnjoyment,
         } = ratingDoc.data();
         return await editRatingByStrAndData(
           classCode,
           id,
+          oldEnjoyment,
+          oldValue,
           oldDifficulty,
           oldWork,
-          oldValue,
-          oldEnjoyment,
+          newEnjoyment,
+          newValue,
           newDifficulty,
           newWork,
-          newValue,
-          newEnjoyment,
           instructor,
           comment,
           storeErrors

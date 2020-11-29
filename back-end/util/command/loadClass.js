@@ -46,10 +46,10 @@ async function loadClassByCode(classCode, storeErrors = false) {
           };
 
           classInfo["ratingSummary"] = {
+            enjoyment: Object.assign({}, emptyMap),
+            value: Object.assign({}, emptyMap),
             difficulty: Object.assign({}, emptyMap),
             work: Object.assign({}, emptyMap),
-            value: Object.assign({}, emptyMap),
-            grades: Object.assign({}, emptyMap),
           };
         }
 
