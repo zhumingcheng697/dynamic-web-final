@@ -1,6 +1,8 @@
 const ClassCode = require("../helpers/ClassCode");
 const firebaseHelper = require("../helpers/firebaseHelper");
 const { getSubjectInfoByPrefix } = require("../core/subjectInfo");
+const { getClassInfoByCode } = require("../core/classInfo");
+const { getClassScheduleByCode } = require("../core/classSchedule");
 
 const autoRefreshLimit = 1; // refresh at most once per hour
 
@@ -16,23 +18,25 @@ async function loadClassByCode(classCode, storeErrors = false) {
    * Loads class info from coursicle and updates db
    *
    * @param {{schoolName: string, subjectName: string}} subjectInfo
+   * @param {object} rewriteRatings
    * @param {boolean} storeErrors
    * @returns {Promise<object>}
    */
-  async function updateClassInfo(subjectInfo, storeErrors = false) {
+  async function updateClassInfo(
+    subjectInfo,
+    rewriteRatings,
+    storeErrors = false
+  ) {
     try {
-      const { getClassInfoByCode } = require("../core/classInfo");
       const classInfo = await getClassInfoByCode(classCode);
 
       // check if the class info exists on coursicle
       if (classInfo && Object.keys(classInfo).length) {
-        const { getClassScheduleByCode } = require("../core/classSchedule");
-
         // get the class schedule if it exists on coursicle
         classInfo["schedule"] = await getClassScheduleByCode(classCode);
         Object.assign(classInfo, classCode);
 
-        if (!classInfo["ratingSummary"]) {
+        if (rewriteRatings) {
           const emptyMap = {
             1: 0,
             2: 0,
@@ -41,14 +45,12 @@ async function loadClassByCode(classCode, storeErrors = false) {
             5: 0,
           };
 
-          const ratingSummary = {
+          classInfo["ratingSummary"] = {
             recommend: { true: 0, false: 0 },
             difficulty: Object.assign({}, emptyMap),
             usefulness: Object.assign({}, emptyMap),
             grades: Object.assign({}, emptyMap),
           };
-
-          classInfo["ratingSummary"] = ratingSummary;
         }
 
         // upload fetched classInfo to db
@@ -111,7 +113,11 @@ async function loadClassByCode(classCode, storeErrors = false) {
             new Date() - classInfo["updatedAt"].toDate() >
               autoRefreshLimit * 60 * 60 * 1000
           ) {
-            updateClassInfo(subjectInfo, storeErrors);
+            updateClassInfo(
+              subjectInfo,
+              !!subjectInfo["ratingSummary"],
+              storeErrors
+            );
           }
 
           return { classInfo, subjectInfo };
@@ -123,7 +129,7 @@ async function loadClassByCode(classCode, storeErrors = false) {
       if (info["classInfo"]) {
         return info;
       } else {
-        return await updateClassInfo(subjectInfo, storeErrors);
+        return await updateClassInfo(subjectInfo, true, storeErrors);
       }
     } catch (e) {
       return storeErrors ? { error: e } : {};
