@@ -1,5 +1,5 @@
-const ClassCode = require("../util/helpers/ClassCode");
-const firebaseHelper = require("../util/helpers/firebaseHelper");
+const ClassCode = require("../helpers/ClassCode");
+const firebaseHelper = require("../helpers/firebaseHelper");
 
 /**
  * Posts a new rating

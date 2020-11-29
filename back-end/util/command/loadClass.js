@@ -1,6 +1,6 @@
-const ClassCode = require("../util/helpers/ClassCode");
-const firebaseHelper = require("../util/helpers/firebaseHelper");
-const { getSubjectInfoByPrefix } = require("../util/core/subjectInfo");
+const ClassCode = require("../helpers/ClassCode");
+const firebaseHelper = require("../helpers/firebaseHelper");
+const { getSubjectInfoByPrefix } = require("../core/subjectInfo");
 
 const autoRefreshLimit = 1; // refresh at most once per hour
 
@@ -21,14 +21,12 @@ async function loadClassByCode(classCode, storeErrors = false) {
    */
   async function updateClassInfo(subjectInfo, storeErrors = false) {
     try {
-      const { getClassInfoByCode } = require("../util/core/classInfo");
+      const { getClassInfoByCode } = require("../core/classInfo");
       const classInfo = await getClassInfoByCode(classCode);
 
       // check if the class info exists on coursicle
       if (classInfo && Object.keys(classInfo).length) {
-        const {
-          getClassScheduleByCode,
-        } = require("../util/core/classSchedule");
+        const { getClassScheduleByCode } = require("../core/classSchedule");
 
         // get the class schedule if it exists on coursicle
         classInfo["schedule"] = await getClassScheduleByCode(classCode);
