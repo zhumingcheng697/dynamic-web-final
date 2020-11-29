@@ -17,11 +17,23 @@ const autoRefreshLimit = 1; // refresh at most once per hour
  */
 async function loadClassByCode(classCode, storeErrors = false) {
   /**
-   * Converts db style ratingSummary to client style ratingSummary
+   * Normalizes necessary classInfo values for client side
    *
    * @param {object} classInfo
    */
-  function convertsRatingSummary(classInfo) {
+  function normalize(classInfo) {
+    // convert Timestamp to Date ISOString
+    if (classInfo && classInfo.updatedAt) {
+      try {
+        classInfo.updatedAt = Timestamp.toISOString(classInfo.updatedAt);
+      } catch (e) {
+        if (storeErrors) {
+          classInfo.error = e;
+        }
+      }
+    }
+
+    // convert db style ratingSummary to client style ratingSummary
     if (classInfo && classInfo.ratingSummary) {
       classInfo.ratingSummary = RatingSummary.summary(classInfo.ratingSummary);
     }
@@ -67,6 +79,8 @@ async function loadClassByCode(classCode, storeErrors = false) {
           };
         }
 
+        const classInfoToUpload = Object.assign({}, classInfo);
+
         // upload fetched classInfo to db
         firebaseHelper(async (firebase) => {
           const db = firebase.default.firestore();
@@ -74,10 +88,10 @@ async function loadClassByCode(classCode, storeErrors = false) {
           await db
             .collection("classes")
             .doc(ClassCode.stringify(classCode))
-            .set(classInfo, { merge: true });
+            .set(classInfoToUpload, { merge: true });
         });
 
-        convertsRatingSummary(classInfo);
+        normalize(classInfo);
 
         return { classInfo, subjectInfo };
       } else {
@@ -132,7 +146,7 @@ async function loadClassByCode(classCode, storeErrors = false) {
             );
           }
 
-          convertsRatingSummary(classInfo);
+          normalize(classInfo);
 
           return { classInfo, subjectInfo };
         } else {
@@ -165,7 +179,3 @@ async function loadClassByStr(classCode, storeErrors = false) {
 }
 
 module.exports = { loadClassByCode, loadClassByStr };
-
-(async () => {
-  require("../helpers/log")(await loadClassByStr("dmuy3193"));
-})();
