@@ -24,16 +24,11 @@ async function deleteRatingByCodeAndData(
   oldGrades,
   storeErrors = false
 ) {
-  if (!classCode) {
+  if (!ClassCode.stringify(classCode)) {
     return 1;
   }
 
-  const { subjectCode, schoolCode, classNumber } = classCode;
-
   if (
-    typeof subjectCode !== "string" ||
-    typeof schoolCode !== "string" ||
-    typeof classNumber !== "string" ||
     typeof id !== "string" ||
     typeof oldRecommend !== "boolean" ||
     ![1, 2, 3, 4, 5].includes(oldDifficulty) ||

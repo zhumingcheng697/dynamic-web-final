@@ -16,7 +16,7 @@ const firebaseHelper = require("../helpers/firebaseHelper");
  * @param {boolean} storeErrors
  * @returns {Promise<number|object>}
  */
-async function postRatingByCode(
+async function postRatingByCodeAndData(
   classCode,
   recommend,
   difficulty,
@@ -28,16 +28,11 @@ async function postRatingByCode(
   comment = "",
   storeErrors = false
 ) {
-  if (!classCode) {
+  if (!ClassCode.stringify(classCode)) {
     return 1;
   }
 
-  const { subjectCode, schoolCode, classNumber } = classCode;
-
   if (
-    typeof subjectCode !== "string" ||
-    typeof schoolCode !== "string" ||
-    typeof classNumber !== "string" ||
     typeof recommend !== "boolean" ||
     ![1, 2, 3, 4, 5].includes(difficulty) ||
     ![1, 2, 3, 4, 5].includes(work) ||
@@ -122,7 +117,7 @@ async function postRatingByCode(
  * @param {boolean} storeErrors
  * @returns {Promise<number|object>}
  */
-async function postRatingByStr(
+async function postRatingByStrAndData(
   classCode,
   recommend,
   difficulty,
@@ -148,4 +143,4 @@ async function postRatingByStr(
   );
 }
 
-module.exports = { postRatingByCode, postRatingByStr };
+module.exports = { postRatingByCodeAndData, postRatingByStrAndData };
