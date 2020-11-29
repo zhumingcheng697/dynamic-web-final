@@ -6,7 +6,6 @@ const firebaseHelper = require("../helpers/firebaseHelper");
  *
  * @param {{subjectCode: string, schoolCode: string, classNumber: string}} classCode
  * @param {string} id
- * @param {boolean} oldRecommend
  * @param {number} oldDifficulty
  * @param {number} oldWork
  * @param {number} oldValue
@@ -17,7 +16,6 @@ const firebaseHelper = require("../helpers/firebaseHelper");
 async function deleteRatingByCodeAndData(
   classCode,
   id,
-  oldRecommend,
   oldDifficulty,
   oldWork,
   oldValue,
@@ -30,7 +28,6 @@ async function deleteRatingByCodeAndData(
 
   if (
     typeof id !== "string" ||
-    typeof oldRecommend !== "boolean" ||
     ![1, 2, 3, 4, 5].includes(oldDifficulty) ||
     ![1, 2, 3, 4, 5].includes(oldWork) ||
     ![1, 2, 3, 4, 5].includes(oldValue) ||
@@ -46,18 +43,19 @@ async function deleteRatingByCodeAndData(
       await db.collection("ratings").doc(id).delete();
 
       const updateInfo = {};
-      updateInfo[
-        `ratingSummary.recommend.${oldRecommend}`
-      ] = firebase.default.firestore.FieldValue.increment(-1);
+
       updateInfo[
         `ratingSummary.difficulty.${oldDifficulty}`
       ] = firebase.default.firestore.FieldValue.increment(-1);
+
       updateInfo[
         `ratingSummary.work.${oldWork}`
       ] = firebase.default.firestore.FieldValue.increment(-1);
+
       updateInfo[
         `ratingSummary.value.${oldValue}`
       ] = firebase.default.firestore.FieldValue.increment(-1);
+
       updateInfo[
         `ratingSummary.grades.${oldGrades}`
       ] = firebase.default.firestore.FieldValue.increment(-1);
@@ -79,7 +77,6 @@ async function deleteRatingByCodeAndData(
  *
  * @param {string} classCode
  * @param {string} id
- * @param {boolean} oldRecommend
  * @param {number} oldDifficulty
  * @param {number} oldWork
  * @param {number} oldValue
@@ -90,7 +87,6 @@ async function deleteRatingByCodeAndData(
 async function deleteRatingByStrAndData(
   classCode,
   id,
-  oldRecommend,
   oldDifficulty,
   oldWork,
   oldValue,
@@ -100,7 +96,6 @@ async function deleteRatingByStrAndData(
   return await deleteRatingByCodeAndData(
     ClassCode.parse(classCode),
     id,
-    oldRecommend,
     oldDifficulty,
     oldWork,
     oldValue,
@@ -128,18 +123,10 @@ async function deleteRatingById(id, storeErrors = false) {
       const ratingDoc = await db.collection("ratings").doc(id).get();
 
       if (ratingDoc && ratingDoc.exists) {
-        const {
-          classCode,
-          recommend,
-          difficulty,
-          work,
-          value,
-          grades,
-        } = ratingDoc.data();
+        const { classCode, difficulty, work, value, grades } = ratingDoc.data();
         return await deleteRatingByStrAndData(
           classCode,
           id,
-          recommend,
           difficulty,
           work,
           value,

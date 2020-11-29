@@ -46,7 +46,6 @@ async function loadClassByCode(classCode, storeErrors = false) {
           };
 
           classInfo["ratingSummary"] = {
-            recommend: { true: 0, false: 0 },
             difficulty: Object.assign({}, emptyMap),
             work: Object.assign({}, emptyMap),
             value: Object.assign({}, emptyMap),

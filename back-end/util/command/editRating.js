@@ -6,12 +6,10 @@ const firebaseHelper = require("../helpers/firebaseHelper");
  *
  * @param {{subjectCode: string, schoolCode: string, classNumber: string}} classCode
  * @param {string} id
- * @param {boolean} oldRecommend
  * @param {number} oldDifficulty
  * @param {number} oldWork
  * @param {number} oldValue
  * @param {number} oldGrades
- * @param {boolean} newRecommend
  * @param {number} newDifficulty
  * @param {number} newWork
  * @param {number} newValue
@@ -24,12 +22,10 @@ const firebaseHelper = require("../helpers/firebaseHelper");
 async function editRatingByCodeAndData(
   classCode,
   id,
-  oldRecommend,
   oldDifficulty,
   oldWork,
   oldValue,
   oldGrades,
-  newRecommend,
   newDifficulty,
   newWork,
   newValue,
@@ -44,12 +40,10 @@ async function editRatingByCodeAndData(
 
   if (
     typeof id !== "string" ||
-    typeof oldRecommend !== "boolean" ||
     ![1, 2, 3, 4, 5].includes(oldDifficulty) ||
     ![1, 2, 3, 4, 5].includes(oldWork) ||
     ![1, 2, 3, 4, 5].includes(oldValue) ||
     ![1, 2, 3, 4, 5].includes(oldGrades) ||
-    typeof newRecommend !== "boolean" ||
     ![1, 2, 3, 4, 5].includes(newDifficulty) ||
     ![1, 2, 3, 4, 5].includes(newWork) ||
     ![1, 2, 3, 4, 5].includes(newValue) ||
@@ -62,7 +56,6 @@ async function editRatingByCodeAndData(
 
   const rating = {
     classCode: ClassCode.stringify(classCode),
-    recommend: newRecommend,
     difficulty: newDifficulty,
     work: newWork,
     value: newValue,
@@ -82,15 +75,6 @@ async function editRatingByCodeAndData(
       await db.collection("ratings").doc(id).update(rating);
 
       const updateInfo = {};
-
-      if (oldRecommend !== newRecommend) {
-        updateInfo[
-          `ratingSummary.recommend.${oldRecommend}`
-        ] = firebase.default.firestore.FieldValue.increment(-1);
-        updateInfo[
-          `ratingSummary.recommend.${newRecommend}`
-        ] = firebase.default.firestore.FieldValue.increment(1);
-      }
 
       if (oldDifficulty !== newDifficulty) {
         updateInfo[
@@ -147,12 +131,10 @@ async function editRatingByCodeAndData(
  *
  * @param {string} classCode
  * @param {string} id
- * @param {boolean} oldRecommend
  * @param {number} oldDifficulty
  * @param {number} oldWork
  * @param {number} oldValue
  * @param {number} oldGrades
- * @param {boolean} newRecommend
  * @param {number} newDifficulty
  * @param {number} newWork
  * @param {number} newValue
@@ -165,12 +147,10 @@ async function editRatingByCodeAndData(
 async function editRatingByStrAndData(
   classCode,
   id,
-  oldRecommend,
   oldDifficulty,
   oldWork,
   oldValue,
   oldGrades,
-  newRecommend,
   newDifficulty,
   newWork,
   newValue,
@@ -182,12 +162,10 @@ async function editRatingByStrAndData(
   return await editRatingByCodeAndData(
     ClassCode.parse(classCode),
     id,
-    oldRecommend,
     oldDifficulty,
     oldWork,
     oldValue,
     oldGrades,
-    newRecommend,
     newDifficulty,
     newWork,
     newValue,
@@ -202,7 +180,6 @@ async function editRatingByStrAndData(
  * Edits a rating
  *
  * @param {string} id
- * @param {boolean} newRecommend
  * @param {number} newDifficulty
  * @param {number} newWork
  * @param {number} newValue
@@ -214,7 +191,6 @@ async function editRatingByStrAndData(
  */
 async function editRatingByIdAndData(
   id,
-  newRecommend,
   newDifficulty,
   newWork,
   newValue,
@@ -236,7 +212,6 @@ async function editRatingByIdAndData(
       if (ratingDoc && ratingDoc.exists) {
         const {
           classCode,
-          recommend: oldRecommend,
           difficulty: oldDifficulty,
           work: oldWork,
           value: oldValue,
@@ -245,12 +220,10 @@ async function editRatingByIdAndData(
         return await editRatingByStrAndData(
           classCode,
           id,
-          oldRecommend,
           oldDifficulty,
           oldWork,
           oldValue,
           oldGrades,
-          newRecommend,
           newDifficulty,
           newWork,
           newValue,
