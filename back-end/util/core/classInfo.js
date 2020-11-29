@@ -54,10 +54,9 @@ async function getClassInfoByCode(classCode, storeErrors = false) {
               const val = nodes[1].textContent;
 
               if (key && val) {
-                res[key.toLowerCase().replace(/\s+/g, "-")] = val.replace(
-                  /^\s+|\s+$|\n/g,
-                  ""
-                );
+                res[
+                  key.toLowerCase().replace(/\s+/g, "-").replace(/\./g, "")
+                ] = val.replace(/^\s+|\s+$|\n/g, "");
               }
             }
           }
@@ -69,7 +68,7 @@ async function getClassInfoByCode(classCode, storeErrors = false) {
           "Schedule Planner",
           "Offered",
         ]) {
-          delete res[key.toLowerCase().replace(/\s+/g, "-")];
+          delete res[key.toLowerCase().replace(/\s+/g, "-").replace(/\./g, "")];
         }
 
         return res;
