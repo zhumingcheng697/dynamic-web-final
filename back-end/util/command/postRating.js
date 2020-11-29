@@ -129,7 +129,7 @@ async function postRatingByStrAndData(
   comment = "",
   storeErrors = false
 ) {
-  return await postRatingByCode(
+  return await postRatingByCodeAndData(
     ClassCode.parse(classCode),
     recommend,
     difficulty,
