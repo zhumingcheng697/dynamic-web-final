@@ -9,7 +9,7 @@ const firebaseHelper = require("../helpers/firebaseHelper");
  * @param {number} oldDifficulty
  * @param {number} oldWork
  * @param {number} oldValue
- * @param {number} oldGrades
+ * @param {number} oldEnjoyment
  * @param {boolean} storeErrors
  * @returns {Promise<number|Error>}
  */
@@ -19,7 +19,7 @@ async function deleteRatingByCodeAndData(
   oldDifficulty,
   oldWork,
   oldValue,
-  oldGrades,
+  oldEnjoyment,
   storeErrors = false
 ) {
   if (!ClassCode.stringify(classCode)) {
@@ -31,7 +31,7 @@ async function deleteRatingByCodeAndData(
     ![1, 2, 3, 4, 5].includes(oldDifficulty) ||
     ![1, 2, 3, 4, 5].includes(oldWork) ||
     ![1, 2, 3, 4, 5].includes(oldValue) ||
-    ![1, 2, 3, 4, 5].includes(oldGrades)
+    ![1, 2, 3, 4, 5].includes(oldEnjoyment)
   ) {
     return 1;
   }
@@ -57,7 +57,7 @@ async function deleteRatingByCodeAndData(
       ] = firebase.default.firestore.FieldValue.increment(-1);
 
       updateInfo[
-        `ratingSummary.grades.${oldGrades}`
+        `ratingSummary.enjoyment.${oldEnjoyment}`
       ] = firebase.default.firestore.FieldValue.increment(-1);
 
       await db
@@ -80,7 +80,7 @@ async function deleteRatingByCodeAndData(
  * @param {number} oldDifficulty
  * @param {number} oldWork
  * @param {number} oldValue
- * @param {number} oldGrades
+ * @param {number} oldEnjoyment
  * @param {boolean} storeErrors
  * @returns {Promise<number|Error>}
  */
@@ -90,7 +90,7 @@ async function deleteRatingByStrAndData(
   oldDifficulty,
   oldWork,
   oldValue,
-  oldGrades,
+  oldEnjoyment,
   storeErrors = false
 ) {
   return await deleteRatingByCodeAndData(
@@ -99,7 +99,7 @@ async function deleteRatingByStrAndData(
     oldDifficulty,
     oldWork,
     oldValue,
-    oldGrades,
+    oldEnjoyment,
     storeErrors
   );
 }
@@ -123,14 +123,20 @@ async function deleteRatingById(id, storeErrors = false) {
       const ratingDoc = await db.collection("ratings").doc(id).get();
 
       if (ratingDoc && ratingDoc.exists) {
-        const { classCode, difficulty, work, value, grades } = ratingDoc.data();
+        const {
+          classCode,
+          difficulty,
+          work,
+          value,
+          enjoyment,
+        } = ratingDoc.data();
         return await deleteRatingByStrAndData(
           classCode,
           id,
           difficulty,
           work,
           value,
-          grades,
+          enjoyment,
           storeErrors
         );
       } else {

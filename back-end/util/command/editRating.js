@@ -9,11 +9,11 @@ const firebaseHelper = require("../helpers/firebaseHelper");
  * @param {number} oldDifficulty
  * @param {number} oldWork
  * @param {number} oldValue
- * @param {number} oldGrades
+ * @param {number} oldEnjoyment
  * @param {number} newDifficulty
  * @param {number} newWork
  * @param {number} newValue
- * @param {number} newGrades
+ * @param {number} newEnjoyment
  * @param {string} instructor
  * @param {string} comment
  * @param {boolean} storeErrors
@@ -25,11 +25,11 @@ async function editRatingByCodeAndData(
   oldDifficulty,
   oldWork,
   oldValue,
-  oldGrades,
+  oldEnjoyment,
   newDifficulty,
   newWork,
   newValue,
-  newGrades,
+  newEnjoyment,
   instructor = "",
   comment = "",
   storeErrors = false
@@ -43,11 +43,11 @@ async function editRatingByCodeAndData(
     ![1, 2, 3, 4, 5].includes(oldDifficulty) ||
     ![1, 2, 3, 4, 5].includes(oldWork) ||
     ![1, 2, 3, 4, 5].includes(oldValue) ||
-    ![1, 2, 3, 4, 5].includes(oldGrades) ||
+    ![1, 2, 3, 4, 5].includes(oldEnjoyment) ||
     ![1, 2, 3, 4, 5].includes(newDifficulty) ||
     ![1, 2, 3, 4, 5].includes(newWork) ||
     ![1, 2, 3, 4, 5].includes(newValue) ||
-    ![1, 2, 3, 4, 5].includes(newGrades) ||
+    ![1, 2, 3, 4, 5].includes(newEnjoyment) ||
     typeof instructor !== "string" ||
     typeof comment !== "string"
   ) {
@@ -59,7 +59,7 @@ async function editRatingByCodeAndData(
     difficulty: newDifficulty,
     work: newWork,
     value: newValue,
-    grades: newGrades,
+    enjoyment: newEnjoyment,
     instructor,
     comment,
   };
@@ -103,12 +103,12 @@ async function editRatingByCodeAndData(
         ] = firebase.default.firestore.FieldValue.increment(1);
       }
 
-      if (oldGrades !== newGrades) {
+      if (oldEnjoyment !== newEnjoyment) {
         updateInfo[
-          `ratingSummary.grades.${oldGrades}`
+          `ratingSummary.enjoyment.${oldEnjoyment}`
         ] = firebase.default.firestore.FieldValue.increment(-1);
         updateInfo[
-          `ratingSummary.grades.${newGrades}`
+          `ratingSummary.enjoyment.${newEnjoyment}`
         ] = firebase.default.firestore.FieldValue.increment(1);
       }
 
@@ -134,11 +134,11 @@ async function editRatingByCodeAndData(
  * @param {number} oldDifficulty
  * @param {number} oldWork
  * @param {number} oldValue
- * @param {number} oldGrades
+ * @param {number} oldEnjoyment
  * @param {number} newDifficulty
  * @param {number} newWork
  * @param {number} newValue
- * @param {number} newGrades
+ * @param {number} newEnjoyment
  * @param {string} instructor
  * @param {string} comment
  * @param {boolean} storeErrors
@@ -150,11 +150,11 @@ async function editRatingByStrAndData(
   oldDifficulty,
   oldWork,
   oldValue,
-  oldGrades,
+  oldEnjoyment,
   newDifficulty,
   newWork,
   newValue,
-  newGrades,
+  newEnjoyment,
   instructor = "",
   comment = "",
   storeErrors = false
@@ -165,11 +165,11 @@ async function editRatingByStrAndData(
     oldDifficulty,
     oldWork,
     oldValue,
-    oldGrades,
+    oldEnjoyment,
     newDifficulty,
     newWork,
     newValue,
-    newGrades,
+    newEnjoyment,
     instructor,
     comment,
     storeErrors
@@ -183,7 +183,7 @@ async function editRatingByStrAndData(
  * @param {number} newDifficulty
  * @param {number} newWork
  * @param {number} newValue
- * @param {number} newGrades
+ * @param {number} newEnjoyment
  * @param {string} instructor
  * @param {string} comment
  * @param {boolean} storeErrors
@@ -194,7 +194,7 @@ async function editRatingByIdAndData(
   newDifficulty,
   newWork,
   newValue,
-  newGrades,
+  newEnjoyment,
   instructor = "",
   comment = "",
   storeErrors = false
@@ -215,7 +215,7 @@ async function editRatingByIdAndData(
           difficulty: oldDifficulty,
           work: oldWork,
           value: oldValue,
-          grades: oldGrades,
+          enjoyment: oldEnjoyment,
         } = ratingDoc.data();
         return await editRatingByStrAndData(
           classCode,
@@ -223,11 +223,11 @@ async function editRatingByIdAndData(
           oldDifficulty,
           oldWork,
           oldValue,
-          oldGrades,
+          oldEnjoyment,
           newDifficulty,
           newWork,
           newValue,
-          newGrades,
+          newEnjoyment,
           instructor,
           comment,
           storeErrors

@@ -8,7 +8,7 @@ const firebaseHelper = require("../helpers/firebaseHelper");
  * @param {number} difficulty
  * @param {number} work
  * @param {number} value
- * @param {number} grades
+ * @param {number} enjoyment
  * @param {string} uid
  * @param {string} instructor
  * @param {string} comment
@@ -20,7 +20,7 @@ async function postRatingByCodeAndData(
   difficulty,
   work,
   value,
-  grades,
+  enjoyment,
   uid,
   instructor = "",
   comment = "",
@@ -34,7 +34,7 @@ async function postRatingByCodeAndData(
     ![1, 2, 3, 4, 5].includes(difficulty) ||
     ![1, 2, 3, 4, 5].includes(work) ||
     ![1, 2, 3, 4, 5].includes(value) ||
-    ![1, 2, 3, 4, 5].includes(grades) ||
+    ![1, 2, 3, 4, 5].includes(enjoyment) ||
     typeof uid !== "string" ||
     typeof instructor !== "string" ||
     typeof comment !== "string"
@@ -47,7 +47,7 @@ async function postRatingByCodeAndData(
     difficulty,
     work,
     value,
-    grades,
+    enjoyment,
     uid,
     instructor,
     comment,
@@ -72,7 +72,7 @@ async function postRatingByCodeAndData(
       ] = firebase.default.firestore.FieldValue.increment(1);
 
       updateInfo[
-        `ratingSummary.grades.${grades}`
+        `ratingSummary.enjoyment.${enjoyment}`
       ] = firebase.default.firestore.FieldValue.increment(1);
 
       await db
@@ -100,7 +100,7 @@ async function postRatingByCodeAndData(
  * @param {number} difficulty
  * @param {number} work
  * @param {number} value
- * @param {number} grades
+ * @param {number} enjoyment
  * @param {string} uid
  * @param {string} instructor
  * @param {string} comment
@@ -112,7 +112,7 @@ async function postRatingByStrAndData(
   difficulty,
   work,
   value,
-  grades,
+  enjoyment,
   uid,
   instructor = "",
   comment = "",
@@ -123,7 +123,7 @@ async function postRatingByStrAndData(
     difficulty,
     work,
     value,
-    grades,
+    enjoyment,
     uid,
     instructor,
     comment,
