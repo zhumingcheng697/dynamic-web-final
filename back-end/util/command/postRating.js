@@ -53,15 +53,9 @@ async function postRatingByCodeAndData(
     value,
     grades,
     uid,
+    instructor,
+    comment,
   };
-
-  if (instructor) {
-    rating["instructor"] = instructor;
-  }
-
-  if (comment) {
-    rating["comment"] = comment;
-  }
 
   try {
     return await firebaseHelper(async (firebase) => {
