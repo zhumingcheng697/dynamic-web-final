@@ -1,5 +1,6 @@
 const ClassCode = require("../helpers/ClassCode");
 const Timestamp = require("../helpers/Timestamp");
+const RatingSummary = require("../helpers/RatingSummary");
 const firebaseHelper = require("../helpers/firebaseHelper");
 const { getSubjectInfoByPrefix } = require("../core/subjectInfo");
 const { getClassInfoByCode } = require("../core/classInfo");
@@ -15,6 +16,17 @@ const autoRefreshLimit = 1; // refresh at most once per hour
  * @returns {Promise<object>}
  */
 async function loadClassByCode(classCode, storeErrors = false) {
+  /**
+   * Converts db style ratingSummary to client style ratingSummary
+   *
+   * @param {object} classInfo
+   */
+  function convertsRatingSummary(classInfo) {
+    if (classInfo && classInfo.ratingSummary) {
+      classInfo.ratingSummary = RatingSummary.summary(classInfo.ratingSummary);
+    }
+  }
+
   /**
    * Loads class info from coursicle and updates db
    *
@@ -64,6 +76,8 @@ async function loadClassByCode(classCode, storeErrors = false) {
             .doc(ClassCode.stringify(classCode))
             .set(classInfo, { merge: true });
         });
+
+        convertsRatingSummary(classInfo);
 
         return { classInfo, subjectInfo };
       } else {
@@ -118,6 +132,8 @@ async function loadClassByCode(classCode, storeErrors = false) {
             );
           }
 
+          convertsRatingSummary(classInfo);
+
           return { classInfo, subjectInfo };
         } else {
           return {};
@@ -149,3 +165,7 @@ async function loadClassByStr(classCode, storeErrors = false) {
 }
 
 module.exports = { loadClassByCode, loadClassByStr };
+
+(async () => {
+  require("../helpers/log")(await loadClassByStr("dmuy3193"));
+})();

@@ -2,7 +2,7 @@
  * Parses class code (eg. DM-UY 3193, csuy1134, EXPOS UA-1, MCCUE 1, etc.) into sections
  *
  * @param {string} classCode
- * @returns {{subjectCode: string, schoolCode: string, classNumber: string}|null}
+ * @returns {?{subjectCode: string, schoolCode: string, classNumber: string}}
  */
 function parse(classCode) {
   if (typeof classCode !== "string") {

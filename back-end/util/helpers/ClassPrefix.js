@@ -2,7 +2,7 @@
  * Parses class prefix (eg. DM-UY, csuy, EXPOS UA, MCCUE, etc.) into sections
  *
  * @param {string} classPrefix
- * @returns {{subjectCode: string, schoolCode: string}|null}
+ * @returns {?{subjectCode: string, schoolCode: string}}
  */
 function parse(classPrefix) {
   if (typeof classPrefix !== "string") {
