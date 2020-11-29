@@ -94,6 +94,10 @@ async function postRatingByCode(
         .doc(ClassCode.stringify(classCode))
         .update(updateInfo);
 
+      rating["updatedAt"] = firebase.default.firestore.Timestamp.fromDate(
+        new Date()
+      );
+
       await db.collection("ratings").doc().set(rating);
 
       return 0;
