@@ -4,24 +4,26 @@ const firebaseHelper = require("../helpers/firebaseHelper");
 const normalizeRating = require("../helpers/normalizeRating");
 
 /**
- * Loads ratings with a matching classCode
+ * Loads ratings with a expectedValue at a key
  *
- * @param {{subjectCode: string, schoolCode: string, classNumber: string}} classCode
+ * @param {string} key
+ * @param {any} expectedValue
  * @param {number} beforeMillis
  * @param {number} maxAmount
  * @param {boolean} normalizeTimestamp
  * @param {boolean} storeErrors
  * @returns {Promise<object[]>}
  */
-async function loadRatingsByCode(
-  classCode,
+async function loadRatingsWithMatch(
+  key,
+  expectedValue,
   beforeMillis = Date.now(),
   maxAmount = 20,
   normalizeTimestamp = true,
   storeErrors = false
 ) {
   if (
-    !ClassCode.stringify(classCode) ||
+    typeof key !== "string" ||
     typeof beforeMillis !== "number" ||
     isNaN(beforeMillis)
   ) {
@@ -34,7 +36,7 @@ async function loadRatingsByCode(
 
       const ratingDocs = await db
         .collection("ratings")
-        .where("classCode", "==", ClassCode.stringify(classCode))
+        .where(key, "==", expectedValue)
         .where("postedAt", "<", Timestamp.fromMillis(beforeMillis))
         .orderBy("postedAt", "desc")
         .limit(maxAmount)
@@ -65,6 +67,37 @@ async function loadRatingsByCode(
 /**
  * Loads ratings with a matching classCode
  *
+ * @param {{subjectCode: string, schoolCode: string, classNumber: string}} classCode
+ * @param {number} beforeMillis
+ * @param {number} maxAmount
+ * @param {boolean} normalizeTimestamp
+ * @param {boolean} storeErrors
+ * @returns {Promise<object[]>}
+ */
+async function loadRatingsByCode(
+  classCode,
+  beforeMillis = Date.now(),
+  maxAmount = 20,
+  normalizeTimestamp = true,
+  storeErrors = false
+) {
+  if (!ClassCode.stringify(classCode)) {
+    return [];
+  }
+
+  return await loadRatingsWithMatch(
+    "classCode",
+    ClassCode.stringify(classCode),
+    beforeMillis,
+    maxAmount,
+    normalizeTimestamp,
+    storeErrors
+  );
+}
+
+/**
+ * Loads ratings with a matching classCode
+ *
  * @param {string} classCode
  * @param {number} beforeMillis
  * @param {number} maxAmount
@@ -88,4 +121,35 @@ async function loadRatingsByStr(
   );
 }
 
-module.exports = { loadRatingsByCode, loadRatingsByStr };
+/**
+ * Loads from a user with a matching uid
+ *
+ * @param {string} uid
+ * @param {number} beforeMillis
+ * @param {number} maxAmount
+ * @param {boolean} normalizeTimestamp
+ * @param {boolean} storeErrors
+ * @returns {Promise<object[]>}
+ */
+async function loadRatingsByUid(
+  uid,
+  beforeMillis = Date.now(),
+  maxAmount = 20,
+  normalizeTimestamp = true,
+  storeErrors = false
+) {
+  if (typeof uid !== "string") {
+    return [];
+  }
+
+  return await loadRatingsWithMatch(
+    "uid",
+    uid,
+    beforeMillis,
+    maxAmount,
+    normalizeTimestamp,
+    storeErrors
+  );
+}
+
+module.exports = { loadRatingsByCode, loadRatingsByStr, loadRatingsByUid };
