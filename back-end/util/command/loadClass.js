@@ -28,7 +28,11 @@ async function loadClassByCode(classCode, storeErrors = false) {
         classInfo.updatedAt = Timestamp.toISOString(classInfo.updatedAt);
       } catch (e) {
         if (storeErrors) {
-          classInfo.error = e;
+          if (Array.isArray(classInfo.error)) {
+            classInfo.error.push(e);
+          } else {
+            classInfo.error = [e];
+          }
         }
       }
     }

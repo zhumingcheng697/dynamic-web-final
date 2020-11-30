@@ -1,5 +1,6 @@
 const ClassCode = require("../helpers/ClassCode");
 const firebaseHelper = require("../helpers/firebaseHelper");
+const loadRatingById = require("./loadRatingById");
 
 /**
  * Deletes a rating
@@ -101,37 +102,28 @@ async function deleteRatingByStrAndData(
  * @returns {Promise<number|Error>}
  */
 async function deleteRatingById(id, storeErrors = false) {
+  if (typeof id !== "string") {
+    return 1;
+  }
+
   try {
-    if (typeof id !== "string") {
-      return 1;
-    }
+    const {
+      classCode,
+      enjoyment,
+      value,
+      difficulty,
+      work,
+    } = await loadRatingById(id, false);
 
-    return await firebaseHelper(async (firebase) => {
-      const db = firebase.default.firestore();
-
-      const ratingDoc = await db.collection("ratings").doc(id).get();
-
-      if (ratingDoc && ratingDoc.exists) {
-        const {
-          classCode,
-          enjoyment,
-          value,
-          difficulty,
-          work,
-        } = ratingDoc.data();
-        return await deleteRatingByStrAndData(
-          classCode,
-          id,
-          enjoyment,
-          value,
-          difficulty,
-          work,
-          storeErrors
-        );
-      } else {
-        return 1;
-      }
-    });
+    return await deleteRatingByStrAndData(
+      classCode,
+      id,
+      enjoyment,
+      value,
+      difficulty,
+      work,
+      storeErrors
+    );
   } catch (e) {
     return storeErrors ? e : 1;
   }

@@ -1,6 +1,7 @@
 const ClassCode = require("../helpers/ClassCode");
 const Timestamp = require("../helpers/Timestamp");
 const firebaseHelper = require("../helpers/firebaseHelper");
+const loadRatingById = require("./loadRatingById");
 
 /**
  * Edits a rating
@@ -183,43 +184,34 @@ async function editRatingByIdAndData(
   comment = "",
   storeErrors = false
 ) {
+  if (typeof id !== "string") {
+    return 1;
+  }
+
   try {
-    if (typeof id !== "string") {
-      return 1;
-    }
+    const {
+      classCode,
+      enjoyment: oldEnjoyment,
+      value: oldValue,
+      difficulty: oldDifficulty,
+      work: oldWork,
+    } = await loadRatingById(id, false);
 
-    return await firebaseHelper(async (firebase) => {
-      const db = firebase.default.firestore();
-
-      const ratingDoc = await db.collection("ratings").doc(id).get();
-
-      if (ratingDoc && ratingDoc.exists) {
-        const {
-          classCode,
-          enjoyment: oldEnjoyment,
-          value: oldValue,
-          difficulty: oldDifficulty,
-          work: oldWork,
-        } = ratingDoc.data();
-        return await editRatingByStrAndData(
-          classCode,
-          id,
-          oldEnjoyment,
-          oldValue,
-          oldDifficulty,
-          oldWork,
-          newEnjoyment,
-          newValue,
-          newDifficulty,
-          newWork,
-          instructor,
-          comment,
-          storeErrors
-        );
-      } else {
-        return 1;
-      }
-    });
+    return await editRatingByStrAndData(
+      classCode,
+      id,
+      oldEnjoyment,
+      oldValue,
+      oldDifficulty,
+      oldWork,
+      newEnjoyment,
+      newValue,
+      newDifficulty,
+      newWork,
+      instructor,
+      comment,
+      storeErrors
+    );
   } catch (e) {
     return storeErrors ? e : 1;
   }
