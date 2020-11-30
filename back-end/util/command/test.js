@@ -6,7 +6,9 @@ const classInfo = require("../core/classInfo");
 const classSchedule = require("../core/classSchedule");
 
 (async function main() {
-  const log = require("../helpers/log");
+  const log = require("../helpers/awaitLog");
+
+  console.log("Starting test");
 
   for (const classCode of [
     "",
@@ -21,15 +23,15 @@ const classSchedule = require("../core/classSchedule");
     "cs-uy 4",
     "csuy3314",
   ]) {
-    log(classCode);
-    log(ClassCode.normalize(classCode));
-    log(ClassCode.parse(classCode));
-    log(ClassPrefix.normalize(classCode));
-    log(ClassPrefix.parse(classCode));
-    log(await subjectInfo.getSubjectInfoByStr(classCode));
-    log(await classInfo.getClassInfoByStr(classCode));
-    log(await classSchedule.getClassScheduleByStr(classCode));
-    log("------------");
+    await log(classCode);
+    await log(ClassCode.normalize(classCode));
+    await log(ClassCode.parse(classCode));
+    await log(ClassPrefix.normalize(classCode));
+    await log(ClassPrefix.parse(classCode));
+    await log(subjectInfo.getSubjectInfoByStr(classCode));
+    await log(classInfo.getClassInfoByStr(classCode));
+    await log(classSchedule.getClassScheduleByStr(classCode));
+    await log("------------");
   }
 
   console.log("Test done");
