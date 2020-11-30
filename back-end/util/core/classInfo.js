@@ -8,9 +8,13 @@ const parseClassCode = require("../helpers/ClassCode").parse;
  * @param {boolean} storeErrors
  * @returns {Promise<object>}
  */
-async function getClassInfoByCode(classCode, storeErrors = false) {
+async function getClassInfoByCode(classCode, storeErrors = undefined) {
   if (!classCode) {
     return {};
+  }
+
+  if (typeof storeErrors === "undefined") {
+    storeErrors = false;
   }
 
   const { subjectCode, schoolCode, classNumber } = classCode;
@@ -93,7 +97,7 @@ async function getClassInfoByCode(classCode, storeErrors = false) {
  * @param {boolean} storeErrors
  * @returns {Promise<object>}
  */
-async function getClassInfoByStr(classCode, storeErrors = false) {
+async function getClassInfoByStr(classCode, storeErrors = undefined) {
   return await getClassInfoByCode(parseClassCode(classCode, storeErrors));
 }
 

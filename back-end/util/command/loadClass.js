@@ -15,7 +15,7 @@ const autoRefreshLimit = 1; // refresh at most once per hour
  * @param {boolean} storeErrors
  * @returns {Promise<object>}
  */
-async function loadClassByCode(classCode, storeErrors = false) {
+async function loadClassByCode(classCode, storeErrors = undefined) {
   /**
    * Normalizes necessary classInfo values for client side
    *
@@ -54,8 +54,12 @@ async function loadClassByCode(classCode, storeErrors = false) {
   async function updateClassInfo(
     subjectInfo,
     rewriteRatings,
-    storeErrors = false
+    storeErrors = undefined
   ) {
+    if (typeof storeErrors === "undefined") {
+      storeErrors = false;
+    }
+
     try {
       const classInfo = await getClassInfoByCode(classCode);
 
@@ -108,6 +112,10 @@ async function loadClassByCode(classCode, storeErrors = false) {
 
   if (!classCode) {
     return {};
+  }
+
+  if (typeof storeErrors === "undefined") {
+    storeErrors = false;
   }
 
   const { subjectCode, schoolCode, classNumber } = classCode;
@@ -178,7 +186,7 @@ async function loadClassByCode(classCode, storeErrors = false) {
  * @param {boolean} storeErrors
  * @returns {Promise<object>}
  */
-async function loadClassByStr(classCode, storeErrors = false) {
+async function loadClassByStr(classCode, storeErrors = undefined) {
   return await loadClassByCode(ClassCode.parse(classCode, storeErrors));
 }
 

@@ -55,7 +55,11 @@ async function logout(debug = false) {
  * @param {firebaseHelperCallback} callback
  * @param {boolean} debug
  */
-async function main(callback, debug = false) {
+async function main(callback, debug = undefined) {
+  if (typeof debug === "undefined") {
+    debug = false;
+  }
+
   try {
     if (!firebase.default.apps.length) {
       firebase.default.initializeApp(firebaseConfig);

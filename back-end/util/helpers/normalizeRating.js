@@ -6,7 +6,11 @@ const Timestamp = require("../helpers/Timestamp");
  * @param {object} rating
  * @param {boolean} storeErrors
  */
-function main(rating, storeErrors = false) {
+function main(rating, storeErrors = undefined) {
+  if (typeof storeErrors === "undefined") {
+    storeErrors = false;
+  }
+
   if (rating && rating.postedAt) {
     try {
       rating.postedAt = Timestamp.toMillis(rating.postedAt);

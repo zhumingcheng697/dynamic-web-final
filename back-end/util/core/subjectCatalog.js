@@ -6,7 +6,11 @@ const puppeteer = require("puppeteer");
  * @param {boolean} storeErrors
  * @returns {Promise<object>}
  */
-async function getSubjectCatalog(storeErrors = false) {
+async function getSubjectCatalog(storeErrors = undefined) {
+  if (typeof storeErrors === "undefined") {
+    storeErrors = false;
+  }
+
   const browser = await puppeteer.launch();
 
   try {

@@ -8,9 +8,13 @@ const parseClassPrefix = require("../helpers/ClassPrefix").parse;
  * @param {boolean} storeErrors
  * @returns {Promise<object>}
  */
-async function getSubjectInfoByPrefix(classPrefix, storeErrors = false) {
+async function getSubjectInfoByPrefix(classPrefix, storeErrors = undefined) {
   if (!classPrefix) {
     return {};
+  }
+
+  if (typeof storeErrors === "undefined") {
+    storeErrors = false;
   }
 
   const { subjectCode, schoolCode } = classPrefix;
@@ -64,7 +68,7 @@ async function getSubjectInfoByPrefix(classPrefix, storeErrors = false) {
  * @param {boolean} storeErrors
  * @returns {Promise<object>}
  */
-async function getSubjectInfoByStr(classPrefix, storeErrors = false) {
+async function getSubjectInfoByStr(classPrefix, storeErrors = undefined) {
   return await getSubjectInfoByPrefix(
     parseClassPrefix(classPrefix),
     storeErrors

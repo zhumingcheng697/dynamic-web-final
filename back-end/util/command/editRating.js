@@ -32,12 +32,24 @@ async function editRatingByCodeAndData(
   newValue,
   newDifficulty,
   newWork,
-  instructor = "",
-  comment = "",
-  storeErrors = false
+  instructor = undefined,
+  comment = undefined,
+  storeErrors = undefined
 ) {
   if (!ClassCode.stringify(classCode)) {
     return 1;
+  }
+
+  if (typeof instructor === "undefined") {
+    instructor = "";
+  }
+
+  if (typeof comment === "undefined") {
+    comment = "";
+  }
+
+  if (typeof storeErrors === "undefined") {
+    storeErrors = false;
   }
 
   if (
@@ -140,9 +152,9 @@ async function editRatingByStrAndData(
   newValue,
   newDifficulty,
   newWork,
-  instructor = "",
-  comment = "",
-  storeErrors = false
+  instructor = undefined,
+  comment = undefined,
+  storeErrors = undefined
 ) {
   return await editRatingByCodeAndData(
     ClassCode.parse(classCode),
@@ -180,9 +192,9 @@ async function editRatingByIdAndData(
   newValue,
   newDifficulty,
   newWork,
-  instructor = "",
-  comment = "",
-  storeErrors = false
+  instructor = undefined,
+  comment = undefined,
+  storeErrors = undefined
 ) {
   if (typeof id !== "string") {
     return 1;

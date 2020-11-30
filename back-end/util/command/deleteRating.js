@@ -21,10 +21,14 @@ async function deleteRatingByCodeAndData(
   oldValue,
   oldDifficulty,
   oldWork,
-  storeErrors = false
+  storeErrors = undefined
 ) {
   if (!ClassCode.stringify(classCode)) {
     return 1;
+  }
+
+  if (typeof storeErrors === "undefined") {
+    storeErrors = false;
   }
 
   if (
@@ -81,7 +85,7 @@ async function deleteRatingByStrAndData(
   oldValue,
   oldDifficulty,
   oldWork,
-  storeErrors = false
+  storeErrors = undefined
 ) {
   return await deleteRatingByCodeAndData(
     ClassCode.parse(classCode),
@@ -101,7 +105,7 @@ async function deleteRatingByStrAndData(
  * @param {boolean} storeErrors
  * @returns {Promise<number|Error>}
  */
-async function deleteRatingById(id, storeErrors = false) {
+async function deleteRatingById(id, storeErrors = undefined) {
   if (typeof id !== "string") {
     return 1;
   }

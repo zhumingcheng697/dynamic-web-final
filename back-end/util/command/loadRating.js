@@ -11,11 +11,19 @@ const normalizeRating = require("../helpers/normalizeRating");
  */
 async function loadRatingById(
   id,
-  normalizeTimestamp = true,
-  storeErrors = false
+  normalizeTimestamp = undefined,
+  storeErrors = undefined
 ) {
   if (typeof id !== "string") {
     return {};
+  }
+
+  if (typeof normalizeTimestamp === "undefined") {
+    normalizeTimestamp = true;
+  }
+
+  if (typeof storeErrors === "undefined") {
+    storeErrors = false;
   }
 
   try {

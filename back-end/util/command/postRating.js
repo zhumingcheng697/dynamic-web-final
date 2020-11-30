@@ -23,12 +23,24 @@ async function postRatingByCodeAndData(
   difficulty,
   work,
   uid,
-  instructor = "",
-  comment = "",
-  storeErrors = false
+  instructor = undefined,
+  comment = undefined,
+  storeErrors = undefined
 ) {
   if (!ClassCode.stringify(classCode)) {
     return 1;
+  }
+
+  if (typeof instructor === "undefined") {
+    instructor = "";
+  }
+
+  if (typeof comment === "undefined") {
+    comment = "";
+  }
+
+  if (typeof storeErrors === "undefined") {
+    storeErrors = false;
   }
 
   if (
@@ -101,9 +113,9 @@ async function postRatingByStrAndData(
   difficulty,
   work,
   uid,
-  instructor = "",
-  comment = "",
-  storeErrors = false
+  instructor = undefined,
+  comment = undefined,
+  storeErrors = undefined
 ) {
   return await postRatingByCodeAndData(
     ClassCode.parse(classCode),
