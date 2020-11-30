@@ -4,8 +4,9 @@ const Timestamp = require("../helpers/Timestamp");
  * Normalizes Timestamps to millis for client side
  *
  * @param {object} rating
+ * @param {boolean} storeErrors
  */
-function main(rating) {
+function main(rating, storeErrors = false) {
   if (rating && rating.postedAt) {
     try {
       rating.postedAt = Timestamp.toMillis(rating.postedAt);

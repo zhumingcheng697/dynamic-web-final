@@ -27,7 +27,7 @@ async function loadRatingById(
         const rating = ratingDoc.data();
 
         if (normalizeTimestamp) {
-          normalizeRating(rating);
+          normalizeRating(rating, storeErrors);
         }
 
         return rating;
