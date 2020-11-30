@@ -1,5 +1,5 @@
-const Timestamp = require("../helpers/Timestamp");
 const firebaseHelper = require("../helpers/firebaseHelper");
+const normalizeRating = require("../helpers/normalizeRating");
 
 /**
  *
@@ -27,33 +27,7 @@ async function loadRatingById(
         const rating = ratingDoc.data();
 
         if (normalizeTimestamp) {
-          if (rating && rating.postedAt) {
-            try {
-              rating.postedAt = Timestamp.toISOString(rating.postedAt);
-            } catch (e) {
-              if (storeErrors) {
-                if (Array.isArray(rating.error)) {
-                  rating.error.push(e);
-                } else {
-                  rating.error = [e];
-                }
-              }
-            }
-          }
-
-          if (rating && rating.updatedAt) {
-            try {
-              rating.updatedAt = Timestamp.toISOString(rating.updatedAt);
-            } catch (e) {
-              if (storeErrors) {
-                if (Array.isArray(rating.error)) {
-                  rating.error.push(e);
-                } else {
-                  rating.error = [e];
-                }
-              }
-            }
-          }
+          normalizeRating(rating);
         }
 
         return rating;
