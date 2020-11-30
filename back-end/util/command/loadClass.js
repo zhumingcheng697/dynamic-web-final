@@ -6,7 +6,7 @@ const { getSubjectInfoByPrefix } = require("../core/subjectInfo");
 const { getClassInfoByCode } = require("../core/classInfo");
 const { getClassScheduleByCode } = require("../core/classSchedule");
 
-const autoRefreshLimit = 1; // refresh at most once per hour
+const autoRefreshLimit = 12; // refresh at most once per 12 hours
 
 /**
  * Loads and updates class and subject info
