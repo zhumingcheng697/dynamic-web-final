@@ -1,7 +1,7 @@
 const ClassCode = require("../helpers/ClassCode");
 const Timestamp = require("../helpers/Timestamp");
 const firebaseHelper = require("../helpers/firebaseHelper");
-const loadRatingById = require("./loadRatingById");
+const loadRating = require("./loadRating");
 
 /**
  * Edits a rating
@@ -195,7 +195,7 @@ async function editRatingByIdAndData(
       value: oldValue,
       difficulty: oldDifficulty,
       work: oldWork,
-    } = await loadRatingById(id, false);
+    } = await loadRating(id, false);
 
     return await editRatingByStrAndData(
       classCode,

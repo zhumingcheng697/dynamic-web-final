@@ -1,6 +1,6 @@
 const ClassCode = require("../helpers/ClassCode");
 const firebaseHelper = require("../helpers/firebaseHelper");
-const loadRatingById = require("./loadRatingById");
+const loadRating = require("./loadRating");
 
 /**
  * Deletes a rating
@@ -107,13 +107,10 @@ async function deleteRatingById(id, storeErrors = false) {
   }
 
   try {
-    const {
-      classCode,
-      enjoyment,
-      value,
-      difficulty,
-      work,
-    } = await loadRatingById(id, false);
+    const { classCode, enjoyment, value, difficulty, work } = await loadRating(
+      id,
+      false
+    );
 
     return await deleteRatingByStrAndData(
       classCode,
