@@ -22,10 +22,10 @@ async function loadClassByCode(classCode, storeErrors = false) {
    * @param {object} classInfo
    */
   function normalize(classInfo) {
-    // convert Timestamp to Date ISOString
+    // convert Timestamp to millis
     if (classInfo && classInfo.updatedAt) {
       try {
-        classInfo.updatedAt = Timestamp.toISOString(classInfo.updatedAt);
+        classInfo.updatedAt = Timestamp.toMillis(classInfo.updatedAt);
       } catch (e) {
         if (storeErrors) {
           if (Array.isArray(classInfo.error)) {

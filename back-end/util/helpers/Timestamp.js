@@ -1,7 +1,7 @@
 const Timestamp = require("firebase").default.firestore.Timestamp;
 
 /**
- * Creates a Timestamp from a Date
+ * Converts a Date to a Timestamp
  *
  * @param {Date} date
  * @returns {firebase.default.firestore.Timestamp}
@@ -11,7 +11,7 @@ function fromDate(date) {
 }
 
 /**
- * Creates a Timestamp from a Date
+ * Converts a Timestamp to a Date
  *
  * @param {firebase.default.firestore.Timestamp} timestamp
  * @returns {Date}
@@ -21,23 +21,23 @@ function toDate(timestamp) {
 }
 
 /**
- * Creates a Timestamp from ISO String
+ * Converts millis to a Timestamp
  *
- * @param {string} ISOString
+ * @param {number} millis
  * @returns {firebase.default.firestore.Timestamp}
  */
-function fromISOString(ISOString) {
-  return fromDate(new Date(ISOString));
+function fromMillis(millis) {
+  return Timestamp.fromMillis(millis);
 }
 
 /**
- * Creates a Timestamp from ISO String
+ * Converts a Timestamp to millis
  *
  * @param {firebase.default.firestore.Timestamp} timestamp
- * @returns {string}
+ * @returns {number}
  */
-function toISOString(timestamp) {
-  return toDate(timestamp).toISOString();
+function toMillis(timestamp) {
+  return timestamp.toMillis();
 }
 
 /**
@@ -49,4 +49,4 @@ function now() {
   return Timestamp.now();
 }
 
-module.exports = { fromDate, toDate, fromISOString, toISOString, now };
+module.exports = { fromDate, toDate, fromMillis, toMillis, now };

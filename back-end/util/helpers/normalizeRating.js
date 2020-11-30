@@ -1,14 +1,14 @@
 const Timestamp = require("../helpers/Timestamp");
 
 /**
- * Normalizes Timestamps to Date ISOString for client side
+ * Normalizes Timestamps to millis for client side
  *
  * @param {object} rating
  */
 function main(rating) {
   if (rating && rating.postedAt) {
     try {
-      rating.postedAt = Timestamp.toISOString(rating.postedAt);
+      rating.postedAt = Timestamp.toMillis(rating.postedAt);
     } catch (e) {
       if (storeErrors) {
         if (Array.isArray(rating.error)) {
@@ -22,7 +22,7 @@ function main(rating) {
 
   if (rating && rating.updatedAt) {
     try {
-      rating.updatedAt = Timestamp.toISOString(rating.updatedAt);
+      rating.updatedAt = Timestamp.toMillis(rating.updatedAt);
     } catch (e) {
       if (storeErrors) {
         if (Array.isArray(rating.error)) {
