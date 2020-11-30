@@ -2,6 +2,7 @@ const firebaseHelper = require("../helpers/firebaseHelper");
 const normalizeRating = require("../helpers/normalizeRating");
 
 /**
+ * Loads a rating with a matching id
  *
  * @param {string} id
  * @param {boolean} normalizeTimestamp
