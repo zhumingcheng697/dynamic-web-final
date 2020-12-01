@@ -28,6 +28,7 @@ async function getClassScheduleByCode(classCode, dev = undefined) {
   }
 
   const browser = await puppeteer.launch({
+    headless: !dev,
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
 
