@@ -12,7 +12,7 @@ router.get("/:id", (req, res) => {
 
   deleteRatingById(id, req.query && req.query.storeErrors === "true")
     .then((result) => {
-      return res.send(result);
+      return res.send(typeof result === "object" ? result : `${result}`);
     })
     .catch((e) => {
       return res.send(e);

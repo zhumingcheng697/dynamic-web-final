@@ -33,7 +33,7 @@ router.get("/:classCode", (req, res) => {
     storeErrors === "true"
   )
     .then((result) => {
-      return res.send(result);
+      return res.send(typeof result === "object" ? result : `${result}`);
     })
     .catch((e) => {
       return res.send(e);
