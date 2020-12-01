@@ -1,19 +1,25 @@
 {
   "name": "back-end",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend for My Final Project for Fall 2020 Dynamic Web App (DM-UY 3193)",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
     "test": "node util/command/test.js",
     "update-catalog": "node util/command/updateSubjectCatalog.js"
   },
-  "author": "",
+  "author": {
+    "name": "McCoy Zhu",
+    "email": "mccoy.zhu@nyu.edu"
+  },
   "license": "ISC",
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "firebase": "^8.1.1",
     "puppeteer": "^5.5.0"
+  },
+  "engines": {
+    "node": "10.17"
   }
 }
