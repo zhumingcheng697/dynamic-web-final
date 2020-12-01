@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
   const id = req.params.id;
 
-  loadRating(id, undefined, req.query && req.query.storeErrors === "true")
+  loadRating(id, undefined, req.query && req.query.dev === "true")
     .then((rating) => {
       return res.send(rating);
     })

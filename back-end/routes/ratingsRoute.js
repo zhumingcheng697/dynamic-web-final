@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
 router.get("/class/:classCode", (req, res) => {
   const classCode = req.params.classCode;
 
-  const { beforeMillis, maxAmount, storeErrors } = req.query || {};
+  const { beforeMillis, maxAmount, dev } = req.query || {};
 
   loadRatings
     .loadRatingsByStr(
@@ -18,7 +18,7 @@ router.get("/class/:classCode", (req, res) => {
       parseInt(beforeMillis),
       parseInt(maxAmount),
       undefined,
-      storeErrors === "true"
+      dev === "true"
     )
     .then((ratings) => {
       return res.send(ratings);
@@ -31,7 +31,7 @@ router.get("/class/:classCode", (req, res) => {
 router.get("/user/:uid", (req, res) => {
   const uid = req.params.uid;
 
-  const { beforeMillis, maxAmount, storeErrors } = req.query || {};
+  const { beforeMillis, maxAmount, dev } = req.query || {};
 
   loadRatings
     .loadRatingsByUid(
@@ -39,7 +39,7 @@ router.get("/user/:uid", (req, res) => {
       parseInt(beforeMillis),
       parseInt(maxAmount),
       undefined,
-      storeErrors === "true"
+      dev === "true"
     )
     .then((ratings) => {
       return res.send(ratings);

@@ -18,7 +18,7 @@ const loadRating = require("./loadRating");
  * @param {number} newWork
  * @param {string} instructor
  * @param {string} comment
- * @param {boolean} storeErrors
+ * @param {boolean} dev
  * @returns {Promise<number|Error>}
  */
 async function editRatingByCodeAndData(
@@ -34,7 +34,7 @@ async function editRatingByCodeAndData(
   newWork,
   instructor = undefined,
   comment = undefined,
-  storeErrors = undefined
+  dev = undefined
 ) {
   if (!ClassCode.stringify(classCode)) {
     return 1;
@@ -48,8 +48,8 @@ async function editRatingByCodeAndData(
     comment = "";
   }
 
-  if (typeof storeErrors === "undefined") {
-    storeErrors = false;
+  if (typeof dev === "undefined") {
+    dev = false;
   }
 
   if (
@@ -119,7 +119,7 @@ async function editRatingByCodeAndData(
       return 0;
     });
   } catch (e) {
-    return storeErrors ? e : 1;
+    return dev ? e : 1;
   }
 }
 
@@ -138,7 +138,7 @@ async function editRatingByCodeAndData(
  * @param {number} newWork
  * @param {string} instructor
  * @param {string} comment
- * @param {boolean} storeErrors
+ * @param {boolean} dev
  * @returns {Promise<number|Error>}
  */
 async function editRatingByStrAndData(
@@ -154,7 +154,7 @@ async function editRatingByStrAndData(
   newWork,
   instructor = undefined,
   comment = undefined,
-  storeErrors = undefined
+  dev = undefined
 ) {
   return await editRatingByCodeAndData(
     ClassCode.parse(classCode),
@@ -169,7 +169,7 @@ async function editRatingByStrAndData(
     newWork,
     instructor,
     comment,
-    storeErrors
+    dev
   );
 }
 
@@ -183,7 +183,7 @@ async function editRatingByStrAndData(
  * @param {number} newWork
  * @param {string} instructor
  * @param {string} comment
- * @param {boolean} storeErrors
+ * @param {boolean} dev
  * @returns {Promise<number|Error>}
  */
 async function editRatingByIdAndData(
@@ -194,7 +194,7 @@ async function editRatingByIdAndData(
   newWork,
   instructor = undefined,
   comment = undefined,
-  storeErrors = undefined
+  dev = undefined
 ) {
   if (typeof id !== "string") {
     return 1;
@@ -222,10 +222,10 @@ async function editRatingByIdAndData(
       newWork,
       instructor,
       comment,
-      storeErrors
+      dev
     );
   } catch (e) {
-    return storeErrors ? e : 1;
+    return dev ? e : 1;
   }
 }
 

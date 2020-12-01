@@ -10,15 +10,8 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
   const id = req.params.id;
 
-  const {
-    enjoyment,
-    value,
-    difficulty,
-    work,
-    instructor,
-    comment,
-    storeErrors,
-  } = req.query || {};
+  const { enjoyment, value, difficulty, work, instructor, comment, dev } =
+    req.query || {};
 
   editRatingByIdAndData(
     id,
@@ -28,7 +21,7 @@ router.get("/:id", (req, res) => {
     parseInt(work),
     instructor,
     comment,
-    storeErrors === "true"
+    dev === "true"
   )
     .then((result) => {
       return res.send(typeof result === "object" ? result : `${result}`);

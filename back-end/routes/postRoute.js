@@ -10,16 +10,8 @@ router.get("/", (req, res) => {
 router.get("/:classCode", (req, res) => {
   const classCode = req.params.classCode;
 
-  const {
-    enjoyment,
-    value,
-    difficulty,
-    work,
-    uid,
-    instructor,
-    comment,
-    storeErrors,
-  } = req.query || {};
+  const { enjoyment, value, difficulty, work, uid, instructor, comment, dev } =
+    req.query || {};
 
   postRatingByStrAndData(
     classCode,
@@ -30,7 +22,7 @@ router.get("/:classCode", (req, res) => {
     uid,
     instructor,
     comment,
-    storeErrors === "true"
+    dev === "true"
   )
     .then((result) => {
       return res.send(typeof result === "object" ? result : `${result}`);

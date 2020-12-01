@@ -12,10 +12,10 @@ const autoRefreshLimit = 12; // refresh at most once per 12 hours
  * Loads and updates class and subject info
  *
  * @param {{subjectCode: string, schoolCode: string, classNumber: string}} classCode
- * @param {boolean} storeErrors
+ * @param {boolean} dev
  * @returns {Promise<object>}
  */
-async function loadClassByCode(classCode, storeErrors = undefined) {
+async function loadClassByCode(classCode, dev = undefined) {
   /**
    * Normalizes necessary classInfo values for client side
    *
@@ -27,7 +27,7 @@ async function loadClassByCode(classCode, storeErrors = undefined) {
       try {
         classInfo.updatedAt = Timestamp.toMillis(classInfo.updatedAt);
       } catch (e) {
-        if (storeErrors) {
+        if (dev) {
           if (Array.isArray(classInfo.error)) {
             classInfo.error.push(e);
           } else {
@@ -48,16 +48,12 @@ async function loadClassByCode(classCode, storeErrors = undefined) {
    *
    * @param {{schoolName: string, subjectName: string}} subjectInfo
    * @param {object} rewriteRatings
-   * @param {boolean} storeErrors
+   * @param {boolean} dev
    * @returns {Promise<object>}
    */
-  async function updateClassInfo(
-    subjectInfo,
-    rewriteRatings,
-    storeErrors = undefined
-  ) {
-    if (typeof storeErrors === "undefined") {
-      storeErrors = false;
+  async function updateClassInfo(subjectInfo, rewriteRatings, dev = undefined) {
+    if (typeof dev === "undefined") {
+      dev = false;
     }
 
     try {
@@ -106,7 +102,7 @@ async function loadClassByCode(classCode, storeErrors = undefined) {
         return {};
       }
     } catch (e) {
-      return storeErrors ? { error: e } : {};
+      return dev ? { error: e } : {};
     }
   }
 
@@ -114,8 +110,8 @@ async function loadClassByCode(classCode, storeErrors = undefined) {
     return {};
   }
 
-  if (typeof storeErrors === "undefined") {
-    storeErrors = false;
+  if (typeof dev === "undefined") {
+    dev = false;
   }
 
   const { subjectCode, schoolCode, classNumber } = classCode;
@@ -151,11 +147,7 @@ async function loadClassByCode(classCode, storeErrors = undefined) {
             new Date() - classInfo["updatedAt"].toDate() >
               autoRefreshLimit * 60 * 60 * 1000
           ) {
-            updateClassInfo(
-              subjectInfo,
-              !!subjectInfo["ratingSummary"],
-              storeErrors
-            );
+            updateClassInfo(subjectInfo, !!subjectInfo["ratingSummary"], dev);
           }
 
           normalize(classInfo);
@@ -169,10 +161,10 @@ async function loadClassByCode(classCode, storeErrors = undefined) {
       if (info["classInfo"]) {
         return info;
       } else {
-        return await updateClassInfo(subjectInfo, true, storeErrors);
+        return await updateClassInfo(subjectInfo, true, dev);
       }
     } catch (e) {
-      return storeErrors ? { error: e } : {};
+      return dev ? { error: e } : {};
     }
   } else {
     return {};
@@ -183,11 +175,11 @@ async function loadClassByCode(classCode, storeErrors = undefined) {
  * Loads and updates class and subject info
  *
  * @param {string} classCode
- * @param {boolean} storeErrors
+ * @param {boolean} dev
  * @returns {Promise<object>}
  */
-async function loadClassByStr(classCode, storeErrors = undefined) {
-  return await loadClassByCode(ClassCode.parse(classCode, storeErrors));
+async function loadClassByStr(classCode, dev = undefined) {
+  return await loadClassByCode(ClassCode.parse(classCode, dev));
 }
 
 module.exports = { loadClassByCode, loadClassByStr };

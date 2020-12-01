@@ -5,16 +5,16 @@ const parseClassPrefix = require("../helpers/ClassPrefix").parse;
  * Gets the info of the subject from Albert
  *
  * @param {{subjectCode: string, schoolCode: string}} classPrefix
- * @param {boolean} storeErrors
+ * @param {boolean} dev
  * @returns {Promise<object>}
  */
-async function getSubjectInfoByPrefix(classPrefix, storeErrors = undefined) {
+async function getSubjectInfoByPrefix(classPrefix, dev = undefined) {
   if (!classPrefix) {
     return {};
   }
 
-  if (typeof storeErrors === "undefined") {
-    storeErrors = false;
+  if (typeof dev === "undefined") {
+    dev = false;
   }
 
   const { subjectCode, schoolCode } = classPrefix;
@@ -57,7 +57,7 @@ async function getSubjectInfoByPrefix(classPrefix, storeErrors = undefined) {
       return subjectInfo;
     });
   } catch (e) {
-    return storeErrors ? { error: e } : {};
+    return dev ? { error: e } : {};
   }
 }
 
@@ -65,14 +65,11 @@ async function getSubjectInfoByPrefix(classPrefix, storeErrors = undefined) {
  * Gets the info of the subject from Albert
  *
  * @param {str} classPrefix
- * @param {boolean} storeErrors
+ * @param {boolean} dev
  * @returns {Promise<object>}
  */
-async function getSubjectInfoByStr(classPrefix, storeErrors = undefined) {
-  return await getSubjectInfoByPrefix(
-    parseClassPrefix(classPrefix),
-    storeErrors
-  );
+async function getSubjectInfoByStr(classPrefix, dev = undefined) {
+  return await getSubjectInfoByPrefix(parseClassPrefix(classPrefix), dev);
 }
 
 module.exports = { getSubjectInfoByPrefix, getSubjectInfoByStr };

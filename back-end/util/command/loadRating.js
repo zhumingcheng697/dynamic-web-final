@@ -6,13 +6,13 @@ const normalizeRating = require("../helpers/normalizeRating");
  *
  * @param {string} id
  * @param {boolean} normalizeTimestamp
- * @param {boolean} storeErrors
+ * @param {boolean} dev
  * @returns {Promise<object>}
  */
 async function loadRatingById(
   id,
   normalizeTimestamp = undefined,
-  storeErrors = undefined
+  dev = undefined
 ) {
   if (typeof id !== "string") {
     return {};
@@ -22,8 +22,8 @@ async function loadRatingById(
     normalizeTimestamp = true;
   }
 
-  if (typeof storeErrors === "undefined") {
-    storeErrors = false;
+  if (typeof dev === "undefined") {
+    dev = false;
   }
 
   try {
@@ -36,7 +36,7 @@ async function loadRatingById(
         const rating = ratingDoc.data();
 
         if (normalizeTimestamp) {
-          normalizeRating(rating, storeErrors);
+          normalizeRating(rating, dev);
         }
 
         return rating;
@@ -45,7 +45,7 @@ async function loadRatingById(
       }
     });
   } catch (e) {
-    return storeErrors ? { error: e } : {};
+    return dev ? { error: e } : {};
   }
 }
 

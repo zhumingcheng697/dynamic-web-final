@@ -5,16 +5,16 @@ const parseClassCode = require("../helpers/ClassCode").parse;
  * Gets the info of the class from coursicle
  *
  * @param {{subjectCode: string, schoolCode: string, classNumber: string}} classCode
- * @param {boolean} storeErrors
+ * @param {boolean} dev
  * @returns {Promise<object>}
  */
-async function getClassInfoByCode(classCode, storeErrors = undefined) {
+async function getClassInfoByCode(classCode, dev = undefined) {
   if (!classCode) {
     return {};
   }
 
-  if (typeof storeErrors === "undefined") {
-    storeErrors = false;
+  if (typeof dev === "undefined") {
+    dev = false;
   }
 
   const { subjectCode, schoolCode, classNumber } = classCode;
@@ -37,6 +37,8 @@ async function getClassInfoByCode(classCode, storeErrors = undefined) {
     await page.goto(
       `https://www.coursicle.com/nyu/courses/${subjectCode.toUpperCase()}${schoolCode.toUpperCase()}/${classNumber}/`
     );
+
+    await page.screenshot({ path: "../temp.jpg", type: "jpeg" });
 
     const classInfo = await page.evaluate(
       (subjectCode, schoolCode, classNumber) => {
@@ -86,7 +88,7 @@ async function getClassInfoByCode(classCode, storeErrors = undefined) {
 
     return classInfo;
   } catch (e) {
-    return storeErrors ? { error: e } : {};
+    return dev ? { error: e } : {};
   } finally {
     await browser.close();
   }
@@ -96,11 +98,13 @@ async function getClassInfoByCode(classCode, storeErrors = undefined) {
  * Gets the info of the class from coursicle
  *
  * @param {string} classCode
- * @param {boolean} storeErrors
+ * @param {boolean} dev
  * @returns {Promise<object>}
  */
-async function getClassInfoByStr(classCode, storeErrors = undefined) {
-  return await getClassInfoByCode(parseClassCode(classCode, storeErrors));
+async function getClassInfoByStr(classCode, dev = undefined) {
+  return await getClassInfoByCode(parseClassCode(classCode, dev));
 }
 
 module.exports = { getClassInfoByCode, getClassInfoByStr };
+
+require("../helpers/awaitLog")(getClassInfoByStr("dmuy4193", true));

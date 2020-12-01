@@ -13,7 +13,7 @@ const firebaseHelper = require("../helpers/firebaseHelper");
  * @param {string} uid
  * @param {string} instructor
  * @param {string} comment
- * @param {boolean} storeErrors
+ * @param {boolean} dev
  * @returns {Promise<number|Error>}
  */
 async function postRatingByCodeAndData(
@@ -25,7 +25,7 @@ async function postRatingByCodeAndData(
   uid,
   instructor = undefined,
   comment = undefined,
-  storeErrors = undefined
+  dev = undefined
 ) {
   if (!ClassCode.stringify(classCode)) {
     return 1;
@@ -39,8 +39,8 @@ async function postRatingByCodeAndData(
     comment = "";
   }
 
-  if (typeof storeErrors === "undefined") {
-    storeErrors = false;
+  if (typeof dev === "undefined") {
+    dev = false;
   }
 
   if (
@@ -88,7 +88,7 @@ async function postRatingByCodeAndData(
       return 0;
     });
   } catch (e) {
-    return storeErrors ? e : 1;
+    return dev ? e : 1;
   }
 }
 
@@ -103,7 +103,7 @@ async function postRatingByCodeAndData(
  * @param {string} uid
  * @param {string} instructor
  * @param {string} comment
- * @param {boolean} storeErrors
+ * @param {boolean} dev
  * @returns {Promise<number|Error>}
  */
 async function postRatingByStrAndData(
@@ -115,7 +115,7 @@ async function postRatingByStrAndData(
   uid,
   instructor = undefined,
   comment = undefined,
-  storeErrors = undefined
+  dev = undefined
 ) {
   return await postRatingByCodeAndData(
     ClassCode.parse(classCode),
@@ -126,7 +126,7 @@ async function postRatingByStrAndData(
     uid,
     instructor,
     comment,
-    storeErrors
+    dev
   );
 }
 

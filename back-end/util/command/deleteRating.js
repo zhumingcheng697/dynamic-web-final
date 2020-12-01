@@ -11,7 +11,7 @@ const loadRating = require("./loadRating");
  * @param {number} oldValue
  * @param {number} oldDifficulty
  * @param {number} oldWork
- * @param {boolean} storeErrors
+ * @param {boolean} dev
  * @returns {Promise<number|Error>}
  */
 async function deleteRatingByCodeAndData(
@@ -21,14 +21,14 @@ async function deleteRatingByCodeAndData(
   oldValue,
   oldDifficulty,
   oldWork,
-  storeErrors = undefined
+  dev = undefined
 ) {
   if (!ClassCode.stringify(classCode)) {
     return 1;
   }
 
-  if (typeof storeErrors === "undefined") {
-    storeErrors = false;
+  if (typeof dev === "undefined") {
+    dev = false;
   }
 
   if (
@@ -62,7 +62,7 @@ async function deleteRatingByCodeAndData(
       return 0;
     });
   } catch (e) {
-    return storeErrors ? e : 1;
+    return dev ? e : 1;
   }
 }
 
@@ -75,7 +75,7 @@ async function deleteRatingByCodeAndData(
  * @param {number} oldValue
  * @param {number} oldDifficulty
  * @param {number} oldWork
- * @param {boolean} storeErrors
+ * @param {boolean} dev
  * @returns {Promise<number|Error>}
  */
 async function deleteRatingByStrAndData(
@@ -85,7 +85,7 @@ async function deleteRatingByStrAndData(
   oldValue,
   oldDifficulty,
   oldWork,
-  storeErrors = undefined
+  dev = undefined
 ) {
   return await deleteRatingByCodeAndData(
     ClassCode.parse(classCode),
@@ -94,7 +94,7 @@ async function deleteRatingByStrAndData(
     oldValue,
     oldDifficulty,
     oldWork,
-    storeErrors
+    dev
   );
 }
 
@@ -102,10 +102,10 @@ async function deleteRatingByStrAndData(
  * Deletes a rating
  *
  * @param {string} id
- * @param {boolean} storeErrors
+ * @param {boolean} dev
  * @returns {Promise<number|Error>}
  */
-async function deleteRatingById(id, storeErrors = undefined) {
+async function deleteRatingById(id, dev = undefined) {
   if (typeof id !== "string") {
     return 1;
   }
@@ -123,10 +123,10 @@ async function deleteRatingById(id, storeErrors = undefined) {
       value,
       difficulty,
       work,
-      storeErrors
+      dev
     );
   } catch (e) {
-    return storeErrors ? e : 1;
+    return dev ? e : 1;
   }
 }
 

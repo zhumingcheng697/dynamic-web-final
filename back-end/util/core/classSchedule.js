@@ -5,16 +5,16 @@ const parseClassCode = require("../helpers/ClassCode").parse;
  * Gets the schedule of the class from coursicle
  *
  * @param {{subjectCode: string, schoolCode: string, classNumber: string}} classCode
- * @param {boolean} storeErrors
+ * @param {boolean} dev
  * @returns {Promise<object[]>}
  */
-async function getClassScheduleByCode(classCode, storeErrors = undefined) {
+async function getClassScheduleByCode(classCode, dev = undefined) {
   if (!classCode) {
     return [];
   }
 
-  if (typeof storeErrors === "undefined") {
-    storeErrors = false;
+  if (typeof dev === "undefined") {
+    dev = false;
   }
 
   const { subjectCode, schoolCode, classNumber } = classCode;
@@ -120,7 +120,7 @@ async function getClassScheduleByCode(classCode, storeErrors = undefined) {
 
     return classSchedule;
   } catch (e) {
-    return storeErrors ? [{ error: e }] : [];
+    return dev ? [{ error: e }] : [];
   } finally {
     await browser.close();
   }

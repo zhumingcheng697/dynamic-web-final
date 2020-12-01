@@ -3,12 +3,12 @@ const puppeteer = require("puppeteer");
 /**
  * Gets the subject catalog from Albert
  *
- * @param {boolean} storeErrors
+ * @param {boolean} dev
  * @returns {Promise<object>}
  */
-async function getSubjectCatalog(storeErrors = undefined) {
-  if (typeof storeErrors === "undefined") {
-    storeErrors = false;
+async function getSubjectCatalog(dev = undefined) {
+  if (typeof dev === "undefined") {
+    dev = false;
   }
 
   const browser = await puppeteer.launch({
@@ -30,7 +30,7 @@ async function getSubjectCatalog(storeErrors = undefined) {
 
     await page.waitForSelector(`form#NYU_CLS_SRCH`);
 
-    const subjectCatalog = await page.evaluate((storeErrors) => {
+    const subjectCatalog = await page.evaluate((dev) => {
       const res = {};
       const errors = [];
 
@@ -104,16 +104,16 @@ async function getSubjectCatalog(storeErrors = undefined) {
       }
 
       // Stores errors for debugging, if necessary
-      if (storeErrors && errors.length > 0) {
+      if (dev && errors.length > 0) {
         res["error"] = errors;
       }
 
       return res;
-    }, storeErrors);
+    }, dev);
 
     return subjectCatalog;
   } catch (e) {
-    return storeErrors ? { error: e } : {};
+    return dev ? { error: e } : {};
   } finally {
     await browser.close();
   }

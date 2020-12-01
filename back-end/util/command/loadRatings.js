@@ -11,7 +11,7 @@ const normalizeRating = require("../helpers/normalizeRating");
  * @param {number} beforeMillis
  * @param {number} maxAmount
  * @param {boolean} normalizeTimestamp
- * @param {boolean} storeErrors
+ * @param {boolean} dev
  * @returns {Promise<object[]>}
  */
 async function loadRatingsWithMatch(
@@ -20,7 +20,7 @@ async function loadRatingsWithMatch(
   beforeMillis = undefined,
   maxAmount = undefined,
   normalizeTimestamp = undefined,
-  storeErrors = undefined
+  dev = undefined
 ) {
   if (typeof beforeMillis === "undefined" || isNaN(beforeMillis)) {
     beforeMillis = Date.now();
@@ -34,8 +34,8 @@ async function loadRatingsWithMatch(
     normalizeTimestamp = true;
   }
 
-  if (typeof storeErrors === "undefined") {
-    storeErrors = false;
+  if (typeof dev === "undefined") {
+    dev = false;
   }
 
   if (
@@ -76,7 +76,7 @@ async function loadRatingsWithMatch(
       return ratings;
     });
   } catch (e) {
-    return storeErrors ? [{ error: e }] : [];
+    return dev ? [{ error: e }] : [];
   }
 }
 
@@ -87,7 +87,7 @@ async function loadRatingsWithMatch(
  * @param {number} beforeMillis
  * @param {number} maxAmount
  * @param {boolean} normalizeTimestamp
- * @param {boolean} storeErrors
+ * @param {boolean} dev
  * @returns {Promise<object[]>}
  */
 async function loadRatingsByCode(
@@ -95,7 +95,7 @@ async function loadRatingsByCode(
   beforeMillis = undefined,
   maxAmount = undefined,
   normalizeTimestamp = undefined,
-  storeErrors = undefined
+  dev = undefined
 ) {
   if (!ClassCode.stringify(classCode)) {
     return [];
@@ -107,7 +107,7 @@ async function loadRatingsByCode(
     beforeMillis,
     maxAmount,
     normalizeTimestamp,
-    storeErrors
+    dev
   );
 }
 
@@ -118,7 +118,7 @@ async function loadRatingsByCode(
  * @param {number} beforeMillis
  * @param {number} maxAmount
  * @param {boolean} normalizeTimestamp
- * @param {boolean} storeErrors
+ * @param {boolean} dev
  * @returns {Promise<object[]>}
  */
 async function loadRatingsByStr(
@@ -126,14 +126,14 @@ async function loadRatingsByStr(
   beforeMillis = undefined,
   maxAmount = undefined,
   normalizeTimestamp = undefined,
-  storeErrors = undefined
+  dev = undefined
 ) {
   return await loadRatingsByCode(
     ClassCode.parse(classCode),
     beforeMillis,
     maxAmount,
     normalizeTimestamp,
-    storeErrors
+    dev
   );
 }
 
@@ -144,7 +144,7 @@ async function loadRatingsByStr(
  * @param {number} beforeMillis
  * @param {number} maxAmount
  * @param {boolean} normalizeTimestamp
- * @param {boolean} storeErrors
+ * @param {boolean} dev
  * @returns {Promise<object[]>}
  */
 async function loadRatingsByUid(
@@ -152,7 +152,7 @@ async function loadRatingsByUid(
   beforeMillis = undefined,
   maxAmount = undefined,
   normalizeTimestamp = undefined,
-  storeErrors = undefined
+  dev = undefined
 ) {
   if (typeof uid !== "string") {
     return [];
@@ -164,7 +164,7 @@ async function loadRatingsByUid(
     beforeMillis,
     maxAmount,
     normalizeTimestamp,
-    storeErrors
+    dev
   );
 }
 

@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
   const id = req.params.id;
 
-  deleteRatingById(id, req.query && req.query.storeErrors === "true")
+  deleteRatingById(id, req.query && req.query.dev === "true")
     .then((result) => {
       return res.send(typeof result === "object" ? result : `${result}`);
     })
