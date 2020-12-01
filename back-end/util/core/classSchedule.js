@@ -38,7 +38,7 @@ async function getClassScheduleByCode(classCode, dev = undefined) {
     const page = await browser.newPage();
 
     await page.goto(
-      `https://www.coursicle.com/nyu/#search=${subjectCode.toUpperCase()}${schoolCode.toUpperCase()}+${classNumber}`
+      `https://www.coursicle.com/nyu/#search=${subjectCode.toUpperCase()}${schoolCode.toUpperCase()}+${classNumber.toUpperCase()}`
     );
 
     await page.waitForSelector(`#container4`);
@@ -71,7 +71,8 @@ async function getClassScheduleByCode(classCode, dev = undefined) {
             number &&
             subject.textContent.replace(/^\s+|\s+$|\n/g, "").toUpperCase() ===
               `${subjectCode.toUpperCase()}${schoolCode.toUpperCase()}` &&
-            number.textContent.replace(/^\s+|\s+$|\n/g, "") === classNumber
+            number.textContent.replace(/^\s+|\s+$|\n/g, "").toUpperCase() ===
+              classNumber.toUpperCase()
           ) {
             const section = card.querySelector(
               `div.courseNumberBack span.section`

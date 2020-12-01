@@ -17,7 +17,7 @@ function parse(classCode) {
     return {
       subjectCode: matches[1].toUpperCase(),
       schoolCode: matches[2].toUpperCase(),
-      classNumber: matches[3],
+      classNumber: matches[3].toUpperCase(),
     };
   }
 
@@ -45,7 +45,7 @@ function stringify(classCode) {
     return "";
   }
 
-  return `${subjectCode.toUpperCase()}-${schoolCode.toUpperCase()} ${classNumber}`;
+  return `${subjectCode.toUpperCase()}-${schoolCode.toUpperCase()} ${classNumber.toUpperCase()}`;
 }
 
 /**

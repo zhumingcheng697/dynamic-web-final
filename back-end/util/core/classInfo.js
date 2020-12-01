@@ -38,7 +38,7 @@ async function getClassInfoByCode(classCode, dev = undefined) {
     const page = await browser.newPage();
 
     await page.goto(
-      `https://www.coursicle.com/nyu/courses/${subjectCode.toUpperCase()}${schoolCode.toUpperCase()}/${classNumber}/`
+      `https://www.coursicle.com/nyu/courses/${subjectCode.toUpperCase()}${schoolCode.toUpperCase()}/${classNumber.toUpperCase()}/`
     );
 
     const classInfo = await page.evaluate(
@@ -50,7 +50,7 @@ async function getClassInfoByCode(classCode, dev = undefined) {
 
         if (header && header.textContent) {
           res["name"] = header.textContent.replace(
-            `${subjectCode.toUpperCase()}${schoolCode.toUpperCase()} ${classNumber} - `,
+            `${subjectCode.toUpperCase()}${schoolCode.toUpperCase()} ${classNumber.toUpperCase()} - `,
             ""
           );
         }
