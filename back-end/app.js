@@ -14,12 +14,12 @@ const deleteRoute = require("./routes/deleteRoute");
 app.use("/class", classRoute);
 app.use("/rating", ratingRoute);
 app.use("/ratings", ratingsRoute);
-app.use("/updateCatalog", updateCatalogRoute);
+app.use("/update-catalog", updateCatalogRoute);
 
 app.use("/post", postRoute);
 app.use("/edit", editRoute);
 app.use("/delete", deleteRoute);
 
 app.listen(port, () => {
-  console.log(`Final is running at port ${port}`);
+  console.log(`Final back-end is running at port ${port}`);
 });
