@@ -39,8 +39,6 @@ async function getClassInfoByCode(classCode, dev = undefined) {
       `https://www.coursicle.com/nyu/courses/${subjectCode.toUpperCase()}${schoolCode.toUpperCase()}/${classNumber}/`
     );
 
-    await page.screenshot({ path: "../temp.jpg", type: "jpeg" });
-
     const classInfo = await page.evaluate(
       (subjectCode, schoolCode, classNumber) => {
         const res = {};
