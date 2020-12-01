@@ -22,11 +22,11 @@ async function loadRatingsWithMatch(
   normalizeTimestamp = undefined,
   storeErrors = undefined
 ) {
-  if (typeof beforeMillis === "undefined") {
+  if (typeof beforeMillis === "undefined" || isNaN(beforeMillis)) {
     beforeMillis = Date.now();
   }
 
-  if (typeof maxAmount === "undefined") {
+  if (typeof maxAmount === "undefined" || isNaN(maxAmount)) {
     maxAmount = 20;
   }
 
@@ -41,7 +41,7 @@ async function loadRatingsWithMatch(
   if (
     typeof key !== "string" ||
     typeof beforeMillis !== "number" ||
-    isNaN(beforeMillis)
+    typeof maxAmount !== "number"
   ) {
     return [];
   }
