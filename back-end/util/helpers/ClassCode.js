@@ -10,7 +10,7 @@ function parse(classCode) {
   }
 
   const matches = classCode.match(
-    /^([a-z][a-z0-9]+?)(?:-|\s)*([a-z]{2}|SHU)(?:-|\s)*([0-9]+[0-9x]*)$/i
+    /^([a-z][a-z0-9]+?)(?:-|\s)*([a-z]{2}|SHU)(?:-|\s)*([0-9]+[0-9a-z]*)$/i
   );
 
   if (matches && matches.length === 4) {
