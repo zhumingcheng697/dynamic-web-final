@@ -11,6 +11,15 @@ const postRoute = require("./routes/postRoute");
 const editRoute = require("./routes/editRoute");
 const deleteRoute = require("./routes/deleteRoute");
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
 app.use("/class", classRoute);
 app.use("/rating", ratingRoute);
 app.use("/ratings", ratingsRoute);
