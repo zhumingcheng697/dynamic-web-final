@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
 router.get("/:classCode", (req, res) => {
   const classCode = req.params.classCode;
 
-  loadClassByStr(classCode, req.query.storeErrors === "true")
+  loadClassByStr(classCode, req.query && req.query.storeErrors === "true")
     .then((info) => {
       return res.send(info);
     })

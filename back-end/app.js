@@ -7,10 +7,18 @@ const ratingRoute = require("./routes/ratingRoute");
 const ratingsRoute = require("./routes/ratingsRoute");
 const updateCatalogRoute = require("./routes/updateCatalogRoute");
 
+const postRoute = require("./routes/postRoute");
+const editRoute = require("./routes/editRoute");
+const deleteRoute = require("./routes/deleteRoute");
+
 app.use("/class", classRoute);
 app.use("/rating", ratingRoute);
 app.use("/ratings", ratingsRoute);
 app.use("/updateCatalog", updateCatalogRoute);
+
+app.use("/post", postRoute);
+app.use("/edit", editRoute);
+app.use("/delete", deleteRoute);
 
 app.listen(port, () => {
   console.log(`Final is running at port ${port}`);
