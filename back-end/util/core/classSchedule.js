@@ -1,5 +1,7 @@
-const puppeteer = require("puppeteer");
+const puppeteer = require("puppeteer-extra");
 const parseClassCode = require("../helpers/ClassCode").parse;
+const StealthPlugin = require("puppeteer-extra-plugin-stealth");
+puppeteer.use(StealthPlugin());
 
 /**
  * Gets the schedule of the class from coursicle

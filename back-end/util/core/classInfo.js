@@ -1,5 +1,7 @@
-const puppeteer = require("puppeteer");
+const puppeteer = require("puppeteer-extra");
 const parseClassCode = require("../helpers/ClassCode").parse;
+const StealthPlugin = require("puppeteer-extra-plugin-stealth");
+puppeteer.use(StealthPlugin());
 
 /**
  * Gets the info of the class from coursicle
@@ -105,5 +107,3 @@ async function getClassInfoByStr(classCode, dev = undefined) {
 }
 
 module.exports = { getClassInfoByCode, getClassInfoByStr };
-
-require("../helpers/awaitLog")(getClassInfoByStr("dmuy4193", true));
