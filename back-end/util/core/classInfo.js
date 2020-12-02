@@ -49,10 +49,12 @@ async function getClassInfoByCode(classCode, dev = undefined) {
         const container = document.querySelector(`div#subItemContainer`);
 
         if (header && header.textContent) {
-          res["name"] = header.textContent.replace(
-            `${subjectCode.toUpperCase()}${schoolCode.toUpperCase()} ${classNumber.toUpperCase()} - `,
-            ""
-          );
+          res["name"] = header.textContent
+            .replace(
+              `${subjectCode.toUpperCase()}${schoolCode.toUpperCase()} ${classNumber.toUpperCase()} - `,
+              ""
+            )
+            .replace(/[:\s-]+$/g, "");
         }
 
         if (container) {
