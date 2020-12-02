@@ -3,6 +3,7 @@ const app = express();
 const port = process.env.PORT || 4000;
 
 const classRoute = require("./routes/classRoute");
+const userRoute = require("./routes/userRoute");
 const ratingRoute = require("./routes/ratingRoute");
 const ratingsRoute = require("./routes/ratingsRoute");
 const updateCatalogRoute = require("./routes/updateCatalogRoute");
@@ -21,6 +22,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/class", classRoute);
+app.use("/user", userRoute);
 app.use("/rating", ratingRoute);
 app.use("/ratings", ratingsRoute);
 app.use("/update-catalog", updateCatalogRoute);
