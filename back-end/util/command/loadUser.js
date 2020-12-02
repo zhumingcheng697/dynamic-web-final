@@ -26,9 +26,10 @@ async function loadUserByUid(uid, dev = undefined) {
         const user = userDoc.data();
 
         if (user.hideEmail) {
-          delete user.hideEmail;
           delete user.email;
         }
+
+        delete user.hideEmail;
 
         return user;
       } else {
