@@ -29,8 +29,6 @@ async function loadUserByUid(uid, dev = undefined) {
           delete user.email;
         }
 
-        delete user.hideEmail;
-
         return user;
       } else {
         return {};
