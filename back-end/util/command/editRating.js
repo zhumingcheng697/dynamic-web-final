@@ -181,7 +181,6 @@ async function editRatingByStrAndData(
  * @param {number} newValue
  * @param {number} newDifficulty
  * @param {number} newWork
- * @param {string} instructor
  * @param {string} comment
  * @param {boolean} dev
  * @returns {Promise<number|Error>}
@@ -192,7 +191,6 @@ async function editRatingByIdAndData(
   newValue,
   newDifficulty,
   newWork,
-  instructor = undefined,
   comment = undefined,
   dev = undefined
 ) {
@@ -207,6 +205,7 @@ async function editRatingByIdAndData(
       value: oldValue,
       difficulty: oldDifficulty,
       work: oldWork,
+      instructor,
     } = await loadRating(id, false);
 
     return await editRatingByStrAndData(

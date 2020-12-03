@@ -23,16 +23,12 @@ async function postRatingByCodeAndData(
   difficulty,
   work,
   uid,
-  instructor = undefined,
+  instructor,
   comment = undefined,
   dev = undefined
 ) {
   if (!ClassCode.stringify(classCode)) {
     return 1;
-  }
-
-  if (typeof instructor === "undefined") {
-    instructor = "";
   }
 
   if (typeof comment === "undefined") {
@@ -113,7 +109,7 @@ async function postRatingByStrAndData(
   difficulty,
   work,
   uid,
-  instructor = undefined,
+  instructor,
   comment = undefined,
   dev = undefined
 ) {
