@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 4000;
 
+const indexRoute = require("./routes/indexRoute");
+
 const classRoute = require("./routes/classRoute");
 const userRoute = require("./routes/userRoute");
 const ratingRoute = require("./routes/ratingRoute");
@@ -20,6 +22,8 @@ app.use((req, res, next) => {
   );
   next();
 });
+
+app.use("/", indexRoute);
 
 app.use("/class", classRoute);
 app.use("/user", userRoute);
