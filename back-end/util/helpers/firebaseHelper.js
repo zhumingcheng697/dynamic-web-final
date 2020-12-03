@@ -28,10 +28,16 @@ async function login(debug = false) {
 }
 
 async function logout(debug = false) {
-  await firebase.default.auth().signOut();
+  try {
+    await firebase.default.auth().signOut();
 
-  if (debug) {
-    console.log("Logged out");
+    if (debug) {
+      console.log("Logged out");
+    }
+  } catch (e) {
+    if (debug) {
+      console.error(e);
+    }
   }
 }
 
@@ -49,7 +55,7 @@ async function logout(debug = false) {
  */
 async function main(callback, debug = undefined) {
   if (typeof debug === "undefined") {
-    debug = false;
+    debug = true;
   }
 
   try {
