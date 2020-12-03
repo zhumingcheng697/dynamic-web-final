@@ -62,7 +62,7 @@ async function logout(debug = false) {
  */
 async function main(callback, debug = undefined) {
   if (typeof debug === "undefined") {
-    debug = true;
+    debug = false;
   }
 
   try {
@@ -88,8 +88,6 @@ async function main(callback, debug = undefined) {
       console.error(e);
     }
     return e;
-    // } finally {
-    //   await logout(debug);
   }
 }
 
