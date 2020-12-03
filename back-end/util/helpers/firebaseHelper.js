@@ -15,34 +15,24 @@ const firebaseConfig = {
 };
 
 async function login(debug = false) {
-  return firebase.default
+  await firebase.default
     .auth()
     .signInWithEmailAndPassword(
       process.env.FIREBASE_EMAIL,
       process.env.FIREBASE_PASSWORD
-    )
-    .then(() => {
-      if (debug) {
-        console.log("Logged in");
-      }
-    })
-    .catch((e) => {
-      console.error(e);
-    });
+    );
+
+  if (debug) {
+    console.log("Logged in");
+  }
 }
 
 async function logout(debug = false) {
-  return firebase.default
-    .auth()
-    .signOut()
-    .then(() => {
-      if (debug) {
-        console.log("Logged out");
-      }
-    })
-    .catch((e) => {
-      console.error(e);
-    });
+  await firebase.default.auth().signOut();
+
+  if (debug) {
+    console.log("Logged out");
+  }
 }
 
 /**
@@ -51,9 +41,11 @@ async function logout(debug = false) {
  */
 
 /**
+ * Automatically logs in and out of firebase
  *
  * @param {firebaseHelperCallback} callback
  * @param {boolean} debug
+ * @returns {Promise<any>}
  */
 async function main(callback, debug = undefined) {
   if (typeof debug === "undefined") {
