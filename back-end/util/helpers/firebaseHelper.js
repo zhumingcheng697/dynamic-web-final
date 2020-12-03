@@ -15,6 +15,13 @@ const firebaseConfig = {
 };
 
 async function login(debug = false) {
+  if (firebase.default.auth().currentUser) {
+    if (debug) {
+      console.log("Already signed in");
+    }
+    return;
+  }
+
   await firebase.default
     .auth()
     .signInWithEmailAndPassword(
@@ -81,8 +88,8 @@ async function main(callback, debug = undefined) {
       console.error(e);
     }
     return e;
-  } finally {
-    await logout(debug);
+    // } finally {
+    //   await logout(debug);
   }
 }
 
