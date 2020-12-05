@@ -22,12 +22,9 @@ function ProfilePage({ user }) {
         .then((res) => {
           setUserInfo(res.data && res.data.displayName ? res.data : null);
           if (
-            !(
-              res.data &&
-              res.data.displayName &&
-              uid &&
-              (!user || uid !== user.uid)
-            )
+            !(res.data && res.data.displayName) &&
+            uid &&
+            (!user || uid !== user.uid)
           ) {
             setTimeout(() => {
               history.push("/user");

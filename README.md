@@ -46,7 +46,7 @@ Profile page for use with user id `uid`
 
 Profile update page where the signed-in user can update their profile information
 
-## API Endpoints
+## Back-End Endpoints
 
 ### `/class/:classCode`
 
