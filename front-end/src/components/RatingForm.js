@@ -384,6 +384,7 @@ function RatingForm({
                       type="text"
                       id="instructor"
                       name="instructor"
+                      autoCapitalize="words"
                       defaultValue={rating && rating.instructor}
                       required
                     />

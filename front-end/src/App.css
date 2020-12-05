@@ -236,6 +236,7 @@ a:not(:hover) {
 
 .DocOption label {
   margin-top: 4px;
+  color: #555;
 }
 
 input[type="text"],
@@ -280,19 +281,14 @@ textarea {
   margin-bottom: 0.8em;
 }
 
+.Doc button:not(:last-of-type),
 .Doc input[type="submit"]:not(:last-of-type) {
   margin-right: 12px;
+  margin-bottom: 10px;
 }
 
-.Doc button:not(:last-of-type) {
-  margin-right: 12px;
-}
-
+.Doc button:last-of-type,
 .Doc input[type="button"]:last-of-type {
-  margin-bottom: 20px;
-}
-
-.Doc button:last-of-type {
   margin-bottom: 20px;
 }
 
@@ -450,7 +446,8 @@ nav * {
     color: #eee;
   }
 
-  .Form .FormDescription {
+  .Form .FormDescription,
+  .DocOption label {
     color: #aaa;
   }
 
