@@ -14,7 +14,7 @@ const firebaseHelper = require("../helpers/firebaseHelper");
  * @param {string} instructor
  * @param {string} comment
  * @param {boolean} dev
- * @returns {Promise<number|Error>}
+ * @returns {Promise<number|string|Error>}
  */
 async function postRatingByCodeAndData(
   classCode,
@@ -79,9 +79,11 @@ async function postRatingByCodeAndData(
         .doc(ClassCode.stringify(classCode))
         .update(updateInfo);
 
-      await db.collection("ratings").doc().set(rating);
+      const ref = db.collection("ratings").doc();
 
-      return 0;
+      await ref.set(rating);
+
+      return ref.id;
     });
   } catch (e) {
     return dev ? e : 1;
@@ -100,7 +102,7 @@ async function postRatingByCodeAndData(
  * @param {string} instructor
  * @param {string} comment
  * @param {boolean} dev
- * @returns {Promise<number|Error>}
+ * @returns {Promise<number|string|Error>}
  */
 async function postRatingByStrAndData(
   classCode,
