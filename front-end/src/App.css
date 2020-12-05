@@ -7,7 +7,7 @@
 }
 
 body {
-  background-color: #fafafa;
+  background-color: #f3f3f3;
   transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
     background 0.5s;
 }
@@ -98,10 +98,13 @@ p {
     background 0.5s;
 }
 
-.Form input {
+.Form input,
+.Form button {
   margin-bottom: 20px;
 }
 
+.Form button[type="submit"],
+.Doc button[type="submit"],
 .Form input[type="submit"],
 .Doc input[type="submit"] {
   margin-top: 15px;
@@ -182,7 +185,7 @@ a:not(:hover) {
 }
 
 .RatingActions p {
-  margin: 0 5px;
+  margin: 3px 5px;
 }
 
 .Ranks {
@@ -293,12 +296,20 @@ textarea {
   margin-right: 12px;
 }
 
+.Doc button:not(:last-of-type) {
+  margin-right: 12px;
+}
+
 .Doc input[type="button"]:last-of-type {
   margin-bottom: 20px;
 }
 
+.Doc button:last-of-type {
+  margin-bottom: 20px;
+}
+
 .Doc {
-  background: #efefef;
+  background: #eaeaea;
   border-radius: 8px;
   margin: 30px 15px;
   padding: 0 20px;
@@ -342,7 +353,7 @@ textarea {
 }
 
 .SpacedSection {
-  background-color: #efefef;
+  background-color: #eaeaea;
   border-radius: 8px;
   margin: 20px 0;
   padding: 5px 20px;
@@ -385,15 +396,15 @@ input[type="button"]:hover:not(:disabled) {
 }
 
 .Header {
-  background-color: #fffa;
+  background-color: #fff8;
   backdrop-filter: blur(20px);
   border-bottom: 1px solid #0003;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
-  padding: calc(15px + var(--inset-top))
-    max(calc(20px + var(--inset-right)), calc(50vw - 480px)) 15px
+  padding: calc(10px + var(--inset-top))
+    max(calc(20px + var(--inset-right)), calc(50vw - 480px)) 10px
     max(calc(20px + var(--inset-left)), calc(50vw - 480px));
   position: sticky;
   top: 0;
@@ -429,7 +440,7 @@ nav * {
   }
 
   body {
-    background-color: #111;
+    background-color: #151515;
   }
 
   label,
@@ -488,7 +499,7 @@ nav * {
   }
 
   .Header {
-    background-color: #111a;
+    background-color: #0008;
     border-bottom: 1px solid #fff3;
   }
 

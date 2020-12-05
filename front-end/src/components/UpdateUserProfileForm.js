@@ -94,11 +94,12 @@ function UpdateUserProfileForm({ user, updateUserProfile }) {
           </label>
         </div>
 
-        <input
+        <button
           type="submit"
-          value="Update"
           disabled={userInfo && !Object.keys(userInfo).length}
-        />
+        >
+          Update
+        </button>
       </form>
     </>
   );

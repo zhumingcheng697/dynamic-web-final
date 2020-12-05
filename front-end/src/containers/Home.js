@@ -24,9 +24,11 @@ function Home() {
           name="class-code"
           id="class-code"
           pattern="^([A-Za-z][A-Za-z0-9]+?)(-|\s)*([A-Za-z]{2}|((S|s)(H|h)(U|u)))(-|\s)*([0-9]+[0-9A-Za-z]*)$"
+          autoCorrect="off"
+          autoCapitalize="characters"
         />
 
-        <input type="submit" value="Search" />
+        <button type="submit">Search</button>
       </form>
     </section>
   );

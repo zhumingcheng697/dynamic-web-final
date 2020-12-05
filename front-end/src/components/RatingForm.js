@@ -387,22 +387,20 @@ function RatingForm({
                   placeholder="Optional"
                 />
 
-                <input
-                  type="submit"
-                  value={
-                    rating && Object.keys(rating).length ? "Update" : "Post"
-                  }
-                />
+                <button type="submit">
+                  {rating && Object.keys(rating).length ? "Update" : "Post"}
+                </button>
 
-                <input
+                <button
                   type="button"
-                  value="Cancel"
                   onClick={() => {
                     if (setIsPresented) {
                       setIsPresented(false);
                     }
                   }}
-                />
+                >
+                  Cancel
+                </button>
               </form>
             )}
           </div>

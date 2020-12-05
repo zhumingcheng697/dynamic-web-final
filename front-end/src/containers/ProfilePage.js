@@ -21,13 +21,36 @@ function ProfilePage({ user }) {
         )
         .then((res) => {
           setUserInfo(res.data && res.data.displayName ? res.data : null);
+          if (
+            !(
+              res.data &&
+              res.data.displayName &&
+              uid &&
+              (!user || uid !== user.uid)
+            )
+          ) {
+            setTimeout(() => {
+              history.push("/user");
+              setUserInfo({});
+              setRatings([]);
+              setAllRatingsLoaded(false);
+            }, 3000);
+          }
         })
         .catch((e) => {
           console.error(e);
           setUserInfo(null);
+          if (uid && (!user || uid !== user.uid)) {
+            setTimeout(() => {
+              history.push("/user");
+              setUserInfo({});
+              setRatings([]);
+              setAllRatingsLoaded(false);
+            }, 3000);
+          }
         });
     }
-  }, [user, uid, userInfo]);
+  }, [user, uid, userInfo, history]);
 
   useEffect(() => {
     if (!ratings.length && !allRatingsLoaded) {
@@ -75,13 +98,14 @@ function ProfilePage({ user }) {
         ) : null}
 
         {!uid || (user && uid === user.uid) ? (
-          <input
+          <button
             type="button"
-            value="Update Profile"
             onClick={() => {
               history.push("/update");
             }}
-          />
+          >
+            Update Profile
+          </button>
         ) : null}
       </section>
 
@@ -90,8 +114,10 @@ function ProfilePage({ user }) {
           <>
             <h3>
               {!uid || (user && uid === user.uid)
-                ? "Ratings you posted"
-                : `Ratings from ${userInfo.displayName}`}
+                ? `Rating${ratings.length === 1 ? "" : "s"} you have posted`
+                : `Rating${ratings.length === 1 ? "" : "s"} from ${
+                    userInfo.displayName
+                  }`}
             </h3>
             {ratings.map((rating, i) =>
               rating.id ? (

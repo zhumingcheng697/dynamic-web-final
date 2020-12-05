@@ -2,7 +2,6 @@ import React from "react";
 import RatingRanks from "./RatingRanks";
 
 function ClassInfo({ classInfo, subjectInfo }) {
-  const rating = classInfo.ratingSummary;
   return (
     <section className="SpacedSection">
       <h2>

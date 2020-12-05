@@ -75,7 +75,7 @@ function SignUpForm({ signUp }) {
           </label>
         </div>
 
-        <input type="submit" value="Sign Up" />
+        <button type="submit">Sign Up</button>
       </form>
     </>
   );

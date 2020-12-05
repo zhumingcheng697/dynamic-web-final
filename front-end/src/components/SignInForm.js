@@ -49,7 +49,7 @@ function SignInForm({ signIn }) {
           required
         />
 
-        <input type="submit" value="Sign In" />
+        <button type="submit">Sign In</button>
       </form>
     </>
   );

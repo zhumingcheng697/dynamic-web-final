@@ -31,13 +31,21 @@ function ClassPage({ user, setRedirect }) {
               ? res.data
               : null
           );
+          if (!(res.data && res.data.classInfo && res.data.classInfo.name)) {
+            setTimeout(() => {
+              history.push("/");
+            }, 3000);
+          }
         })
         .catch((e) => {
           console.error(e);
           setClassData(null);
+          setTimeout(() => {
+            history.push("/");
+          }, 3000);
         });
     }
-  }, [user, classCode, classData]);
+  }, [user, classCode, classData, history]);
 
   useEffect(() => {
     if (!ratings.length && !allRatingsLoaded) {
@@ -92,18 +100,20 @@ function ClassPage({ user, setRedirect }) {
         {ratings.length || newRatings.length ? (
           <>
             <h3>
-              Ratings for {classData.classInfo.subjectCode}-
-              {classData.classInfo.schoolCode} {classData.classInfo.classNumber}
+              Rating{ratings.length + newRatings.length === 1 ? "" : "s"} for{" "}
+              {classData.classInfo.subjectCode}-{classData.classInfo.schoolCode}{" "}
+              {classData.classInfo.classNumber}
             </h3>
 
             {user &&
             (newRatings.find((el) => el.uid === user.uid) ||
               ratings.find((el) => el.uid === user.uid)) ? (
-              <button disabled={true}>
+              <button type="button" disabled={true}>
                 You have already posted an rating for this class
               </button>
             ) : (
               <button
+                type="button"
                 onClick={() => {
                   if (user) {
                     setPosting(true);
@@ -146,6 +156,7 @@ function ClassPage({ user, setRedirect }) {
           <>
             <h3>No ratings available yet</h3>
             <button
+              type="button"
               onClick={() => {
                 if (user) {
                   setPosting(true);

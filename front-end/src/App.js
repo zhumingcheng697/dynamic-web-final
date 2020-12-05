@@ -19,7 +19,6 @@ import ClassPage from "./containers/ClassPage";
 import SignUpPage from "./containers/SignUpPage";
 import SignInPage from "./containers/SignInPage";
 import UpdateUserProfilePage from "./containers/UpdateUserProfilePage";
-import RatingForm from "./components/RatingForm";
 import Header from "./components/Header";
 import Home from "./containers/Home";
 
