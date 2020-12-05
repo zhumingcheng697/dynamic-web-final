@@ -495,7 +495,7 @@ nav * {
   button:hover:not(:disabled),
   input[type="submit"]:hover:not(:disabled),
   input[type="button"]:hover:not(:disabled) {
-    background-color: #3a3a3a;
+    background-color: #353535;
   }
 
   .Header {

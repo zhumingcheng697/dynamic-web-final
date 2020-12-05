@@ -47,11 +47,13 @@ function App() {
       setUserLoaded(true);
     });
 
-    axios
-      .get(`https://${process.env.REACT_APP_HEROKU_APP_NAME}.herokuapp.com/`)
-      .catch((err) => {
-        console.error(err);
-      });
+    setInterval(() => {
+      axios
+        .get(`https://${process.env.REACT_APP_HEROKU_APP_NAME}.herokuapp.com/`)
+        .catch((err) => {
+          console.error(err);
+        });
+    }, 1000 * 60 * 10);
   }, []);
 
   /**
