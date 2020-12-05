@@ -122,7 +122,20 @@ function RatingForm({
                     ? "Edit Rating"
                     : "New Rating"}
                 </h2>
-                <h4 className="Required">Do you enjoy taking this class?</h4>
+                <span
+                  className="CloseBtn"
+                  onClick={() => {
+                    if (setIsPresented) {
+                      setIsPresented(false);
+                    }
+                  }}
+                >
+                  ×
+                </span>
+
+                <h4 className="Required Text">
+                  Do you enjoy taking this class?
+                </h4>
                 <div className="DocOptions">
                   <div className="DocOption">
                     <input

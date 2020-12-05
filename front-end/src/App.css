@@ -77,6 +77,8 @@ p {
 .Form {
   display: flex;
   flex-direction: column;
+  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
+    background 0.5s;
 }
 
 .FormSection {
@@ -212,6 +214,8 @@ a:not(:hover) {
   border-radius: 8px;
   padding: 5px 25px;
   text-align: center;
+  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
+    background 0.5s;
 }
 
 .SpacedSection > a:last-child,
@@ -317,6 +321,18 @@ textarea {
   z-index: 35;
   transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
     background 0.5s;
+}
+
+form {
+  position: relative;
+}
+
+.CloseBtn {
+  position: absolute;
+  cursor: pointer;
+  font-size: 1.5em;
+  top: 0;
+  right: 0;
 }
 
 .RatingModal {
@@ -495,7 +511,7 @@ nav * {
   button:hover:not(:disabled),
   input[type="submit"]:hover:not(:disabled),
   input[type="button"]:hover:not(:disabled) {
-    background-color: #353535;
+    background-color: #373737;
   }
 
   .Header {
