@@ -16,103 +16,105 @@
 
 - Redirect user back to the class page that they left after sign-in / sign-up
 
+- Redirect user to home page or profile page if class or user is not found
+
 ## Front-End Routes
 
-### `/`
+- ### `/`
 
-Landing page where users can type in and search for classes
+  Landing page where users can type in and search for classes
 
-### `/sign-in`
+- ### `/sign-in`
 
-Sign-in page
+  Sign-in page
 
-### `/sign-up`
+- ### `/sign-up`
 
-Sign-up page
+  Sign-up page
 
-### `/class/:classCode`
+- ### `/class/:classCode`
 
-Class ratings page for class with class code `classCode`
+  Class ratings page for class with class code `classCode`
 
   > Users will also be able to post, edit, and delete ratings on this page.
 
-### `/user`
+- ### `/user`
 
-Profile page for the signed-in user
+  Profile page for the signed-in user
 
   > Users will also be able to edit and delete previous ratings on this page.
 
-### `/user/:uid`
+- ### `/user/:uid`
 
-Profile page for use with user id `uid`
+  Profile page for use with user id `uid`
 
-### `/update`
+- ### `/update`
 
-Profile update page where the signed-in user can update their profile information
+  Profile update page where the signed-in user can update their profile information
 
 > Routing logic depending on whether the user has signed in or whether the search for a class or a user failed not detailed here.
 
 ## Back-End Endpoints
 
-### `/class/:classCode`
+- ### `/class/:classCode`
 
-Get the information of the class with class code `classCode`
+  Get the information of the class with class code `classCode`
 
-### `/user/:uid`
+- ### `/user/:uid`
 
-Get the information of the user with user id `uid`
+  Get the information of the user with user id `uid`
 
-### `/rating/:id`
+- ### `/rating/:id`
 
-Get the information of the rating with document id `id`
+  Get the information of the rating with document id `id`
 
-### `/ratings/class/:classCode`
+- ### `/ratings/class/:classCode`
 
-Get all the ratings for the class with class code `classCode`
+  Get all the ratings for the class with class code `classCode`
 
-### `/ratings/user/:uid`
+- ### `/ratings/user/:uid`
 
-Get all the ratings from the user with user id `uid`
+  Get all the ratings from the user with user id `uid`
 
-### `/post/:classCode`
+- ### `/post/:classCode`
 
-Post a rating for the class with class code `classCode`
+  Post a rating for the class with class code `classCode`
 
-### `/edit/:id`
+- ### `/edit/:id`
 
-Edit a rating with document id `id`
+  Edit a rating with document id `id`
 
-### `/delete/:id`
+- ### `/delete/:id`
 
-Delete a rating with document id `id`
+  Delete a rating with document id `id`
 
 > Detailed parameter and return type documentation are available as JSDoc in the back-end source codes.
 
 ## Firebase Collections
 
-### `classes`
+- ### `classes`
 
-**Document ID:** class code
+  **Document ID:** class code
 
-Stores class name, description, schedule, updated date, rating counts, and other information scraped online.
+  Stores class name, description, schedule, updated date, rating counts, and other information scraped online.
 
-### `ratings`
+- ### `ratings`
 
-**Document ID:** randomized rating id
+  **Document ID:** randomized rating id
 
-Stores class code, rating, comment, user id, posted and updated date, and other rating information.
+  Stores class code, rating, comment, user id, posted and updated date, and other rating information.
 
-### `subjectCatalog`
+- ### `subjectCatalog`
 
-**Document ID:** school code
+  **Document ID:** school code
 
-Stores school codes, school names, and a catalog of subject codes and matching subject names.
+  Stores school codes, school names, and a catalog of subject codes and matching subject names.
 
-### `users`
+- ### `users`
 
-**Document ID:** Firebase auth generated user id
+  **Document ID:** Firebase auth generated user id
 
-Stores user name, email, major, and preference for showing or hiding email for each user.
+  Stores user name, email, major, and preference for showing or hiding email for each user.
 
 ## Firestore Security Rules
 
