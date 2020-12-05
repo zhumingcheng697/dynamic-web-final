@@ -8,23 +8,21 @@
 
 body {
   background-color: #f3f3f3;
-  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
-    background 0.5s;
+  transition: background-color 0.5s;
 }
 
 input {
-  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
-    background 0.5s;
+  transition: color 0.5s, background-color 0.5s, background 0.5s;
 }
 
 label,
 h2,
 h3,
 h4,
+span,
 p {
   color: #000;
-  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
-    background 0.5s;
+  transition: color 0.5s;
 }
 
 .App {
@@ -38,8 +36,6 @@ p {
 
 p {
   line-height: 1.4;
-  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
-    background 0.5s;
 }
 
 .Success,
@@ -70,15 +66,12 @@ p {
   font-size: 1.6em;
   font-weight: bold;
   margin-right: 8px;
-  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
-    background 0.5s;
+  transition: color 0.5s;
 }
 
 .Form {
   display: flex;
   flex-direction: column;
-  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
-    background 0.5s;
 }
 
 .FormSection {
@@ -96,8 +89,7 @@ p {
   color: var(--red);
   font-weight: bold;
   margin-left: 3px;
-  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
-    background 0.5s;
+  transition: color 0.5s;
 }
 
 .Form input,
@@ -120,8 +112,7 @@ p {
   color: #555;
   font-size: 0.9em;
   margin-left: 5px;
-  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
-    background 0.5s;
+  transition: color 0.5s;
 }
 
 .SpacedSection.FormSection .Form label h2 {
@@ -131,8 +122,7 @@ p {
 .Destructive {
   color: var(--red) !important;
   text-decoration-color: var(--red) !important;
-  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
-    background 0.5s;
+  transition: color 0.5s, text-decoration-color 0.5s;
 }
 
 .Rating {
@@ -140,22 +130,19 @@ p {
   border-radius: 8px;
   margin: 20px 0;
   padding: 5px 20px;
-  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
-    background 0.5s;
+  transition: background-color 0.5s;
 }
 
 .RatingSmallText {
   color: #555;
   font-size: 0.85em;
-  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
-    background 0.5s;
+  transition: color 0.5s;
 }
 
 a {
   color: #57068c;
   text-decoration-color: #57068c;
-  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
-    background 0.5s;
+  transition: color 0.5s, text-decoration-color 0.5s;
 }
 
 a:not(:hover) {
@@ -175,8 +162,7 @@ a:not(:hover) {
   color: #57068c;
   font-size: 0.85em;
   text-decoration-color: #57068c;
-  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
-    background 0.5s;
+  transition: color 0.5s, text-decoration-color 0.5s;
 }
 
 .RatingActions {
@@ -214,8 +200,7 @@ a:not(:hover) {
   border-radius: 8px;
   padding: 5px 25px;
   text-align: center;
-  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
-    background 0.5s;
+  transition: background 0.5s;
 }
 
 .SpacedSection > a:last-child,
@@ -283,8 +268,7 @@ textarea {
   padding: 10px;
   resize: none;
   width: 100%;
-  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
-    background 0.5s;
+  transition: color 0.5s, background-color 0.5s;
 }
 
 .Flex {
@@ -319,8 +303,7 @@ textarea {
   padding: 0 20px;
   width: min(100%, 700px);
   z-index: 35;
-  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
-    background 0.5s;
+  transition: background 0.5s;
 }
 
 form {
@@ -333,6 +316,10 @@ form {
   font-size: 1.5em;
   top: 0;
   right: 0;
+}
+
+.CloseBtn:hover {
+  color: #888;
 }
 
 .RatingModal {
@@ -373,8 +360,7 @@ form {
   border-radius: 8px;
   margin: 20px 0;
   padding: 5px 20px;
-  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
-    background 0.5s;
+  transition: background-color 0.5s;
 }
 
 button,
@@ -387,8 +373,7 @@ input[type="button"] {
   cursor: pointer;
   font-size: inherit;
   padding: 10px 15px;
-  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
-    background 0.5s;
+  transition: color 0.5s, background-color 0.5s;
 }
 
 :disabled {
@@ -400,8 +385,7 @@ button:hover:not(:disabled),
 input[type="submit"]:hover:not(:disabled),
 input[type="button"]:hover:not(:disabled) {
   background-color: #dadada;
-  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
-    background 0.5s;
+  transition: background-color 0.5s;
 }
 
 .Centered {
@@ -424,8 +408,7 @@ input[type="button"]:hover:not(:disabled) {
     max(calc(20px + var(--inset-left)), calc(50vw - 480px));
   position: sticky;
   top: 0;
-  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
-    background 0.5s;
+  transition: background-color 0.5s, border-bottom 0.5s;
 }
 
 .Header h1 {
@@ -434,8 +417,7 @@ input[type="button"]:hover:not(:disabled) {
 
 .Header h1 a {
   color: #000;
-  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
-    background 0.5s;
+  transition: color 0.5s;
 }
 
 .Header h1 :hover {
@@ -452,7 +434,7 @@ nav * {
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --red: #d22;
+    --red: #e22;
   }
 
   body {
@@ -463,6 +445,7 @@ nav * {
   h2,
   h3,
   h4,
+  span,
   p {
     color: #eee;
   }
@@ -477,6 +460,10 @@ nav * {
 
   .RatingSmallText {
     color: #aaa;
+  }
+
+  .CloseBtn:hover {
+    color: #888;
   }
 
   a {
