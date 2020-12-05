@@ -16,9 +16,9 @@ input {
 }
 
 label,
-h2,
-h3,
-h4,
+:not(label) > h2,
+:not(label) > h3,
+:not(label) > h4,
 span,
 p {
   color: #000;
@@ -442,9 +442,9 @@ nav * {
   }
 
   label,
-  h2,
-  h3,
-  h4,
+  :not(label) > h2,
+  :not(label) > h3,
+  :not(label) > h4,
   span,
   p {
     color: #eee;
