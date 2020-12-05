@@ -1,5 +1,510 @@
+:root {
+  --inset-left: env(safe-area-inset-left, 0);
+  --inset-right: env(safe-area-inset-right, 0);
+  --inset-top: env(safe-area-inset-top, 0);
+  --inset-bottom: env(safe-area-inset-bottom, 0);
+  --red: #f00;
+}
+
+body {
+  background-color: #fafafa;
+  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
+    background 0.5s;
+}
+
+input {
+  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
+    background 0.5s;
+}
+
+label,
+h2,
+h3,
+h4,
+p {
+  color: #000;
+  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
+    background 0.5s;
+}
+
 .App {
-  padding: 10px 20px;
-  max-width: 1080px;
+  padding: var(--inset-top)
+    max(calc(20px + var(--inset-right)), calc(50vw - 480px))
+    calc(10px + var(--inset-bottom))
+    max(calc(20px + var(--inset-right)), calc(50vw - 480px));
+  max-width: 960px;
   margin: 0 auto;
+}
+
+p {
+  line-height: 1.4;
+  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
+    background 0.5s;
+}
+
+.Success,
+.Error {
+  align-items: center;
+  display: inline-flex;
+}
+
+.Form h4.Success,
+.Form h4.Error,
+.FormSection h4.Success,
+.FormSection h4.Error {
+  margin-top: 0;
+}
+
+.Success::before {
+  content: "\2713";
+  color: #5c6;
+  font-size: 1.6em;
+  font-weight: bold;
+  margin-right: 6px;
+  margin-bottom: 3px;
+}
+
+.Error::before {
+  content: "\2715";
+  color: var(--red);
+  font-size: 1.6em;
+  font-weight: bold;
+  margin-right: 8px;
+  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
+    background 0.5s;
+}
+
+.Form {
+  display: flex;
+  flex-direction: column;
+}
+
+.FormSection {
+  max-width: 400px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.Form label {
+  margin-bottom: 5px;
+}
+
+.Required::after {
+  content: "*";
+  color: var(--red);
+  font-weight: bold;
+  margin-left: 3px;
+  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
+    background 0.5s;
+}
+
+.Form input {
+  margin-bottom: 20px;
+}
+
+.Form input[type="submit"],
+.Doc input[type="submit"] {
+  margin-top: 15px;
+}
+
+.Form input[type="checkbox"] {
+  vertical-align: text-top;
+}
+
+.Form .FormDescription {
+  color: #555;
+  font-size: 0.9em;
+  margin-left: 5px;
+  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
+    background 0.5s;
+}
+
+.SpacedSection.FormSection .Form label h2 {
+  margin-bottom: 0;
+}
+
+.Destructive {
+  color: var(--red) !important;
+  text-decoration-color: var(--red) !important;
+  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
+    background 0.5s;
+}
+
+.Rating {
+  background-color: #e1e1e1;
+  border-radius: 8px;
+  margin: 20px 0;
+  padding: 5px 20px;
+  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
+    background 0.5s;
+}
+
+.RatingSmallText {
+  color: #555;
+  font-size: 0.85em;
+  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
+    background 0.5s;
+}
+
+a {
+  color: #57068c;
+  text-decoration-color: #57068c;
+  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
+    background 0.5s;
+}
+
+a:not(:hover) {
+  text-decoration: none;
+}
+
+.Rating > *:last-child {
+  margin-bottom: 15px;
+}
+
+.RatingActionText:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.RatingActionText {
+  color: #57068c;
+  font-size: 0.85em;
+  text-decoration-color: #57068c;
+  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
+    background 0.5s;
+}
+
+.RatingActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0 -5px;
+}
+
+.RatingActions p {
+  margin: 0 5px;
+}
+
+.Ranks {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -3px -18px;
+}
+
+.Ranks p {
+  margin: 3px 18px;
+}
+
+.ClassSchedule {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: -10px;
+}
+
+.SectionSchedule {
+  margin: 10px;
+  min-width: 135px;
+  background: #e1e1e1;
+  border-radius: 8px;
+  padding: 5px 25px;
+  text-align: center;
+}
+
+.SpacedSection > a:last-child,
+.SpacedSection > button:last-child,
+.SpacedSection > input[type="submit"]:last-child,
+.SpacedSection > input[type="button"]:last-child,
+.SpacedSection > .ClassSchedule:last-child {
+  margin-bottom: 20px;
+}
+
+.SectionSchedule * {
+  margin: 10px 0;
+}
+
+.InstructorName {
+  text-transform: capitalize;
+}
+
+.DocOptions {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin: -8px -10px;
+}
+
+.DocOption {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 4px 10px;
+}
+
+.DocOption label {
+  margin-top: 4px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  background-color: #fafafa;
+  border: none;
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: #000;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 10px;
+  width: 100%;
+  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
+    background 0.5s;
+}
+
+textarea {
+  background-color: #fafafa;
+  border: none;
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: #000;
+  display: block;
+  font-family: inherit;
+  font-size: 1rem;
+  margin: 0;
+  min-height: 135px;
+  padding: 10px;
+  resize: none;
+  width: 100%;
+  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
+    background 0.5s;
+}
+
+.Flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.Doc h4 {
+  margin-bottom: 0.8em;
+}
+
+.Doc input[type="submit"]:not(:last-of-type) {
+  margin-right: 12px;
+}
+
+.Doc input[type="button"]:last-of-type {
+  margin-bottom: 20px;
+}
+
+.Doc {
+  background: #efefef;
+  border-radius: 8px;
+  margin: 30px 15px;
+  padding: 0 20px;
+  width: min(100%, 700px);
+  z-index: 35;
+  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
+    background 0.5s;
+}
+
+.RatingModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.RatingMask {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  position: fixed;
+  background: #000a;
+  top: 0;
+  left: 0;
+  z-index: 30;
+}
+
+.RatingWrapper {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.Scrollable {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+.SpacedSection {
+  background-color: #efefef;
+  border-radius: 8px;
+  margin: 20px 0;
+  padding: 5px 20px;
+  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
+    background 0.5s;
+}
+
+button,
+input[type="submit"],
+input[type="button"] {
+  background-color: #e1e1e1;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: inherit;
+  padding: 10px 15px;
+  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
+    background 0.5s;
+}
+
+:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled),
+input[type="submit"]:hover:not(:disabled),
+input[type="button"]:hover:not(:disabled) {
+  background-color: #dadada;
+  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
+    background 0.5s;
+}
+
+.Centered {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+.Header {
+  background-color: #fffa;
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid #0003;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: calc(15px + var(--inset-top))
+    max(calc(20px + var(--inset-right)), calc(50vw - 480px)) 15px
+    max(calc(20px + var(--inset-left)), calc(50vw - 480px));
+  position: sticky;
+  top: 0;
+  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
+    background 0.5s;
+}
+
+.Header h1 {
+  margin: 5px 25px 10px 0;
+}
+
+.Header h1 a {
+  color: #000;
+  transition: color 0.5s, background-color 0.5s, text-decoration-color 0.5s,
+    background 0.5s;
+}
+
+.Header h1 :hover {
+  text-decoration: none;
+}
+
+nav {
+  margin: 0px -8px;
+}
+
+nav * {
+  margin: 5px 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --red: #d22;
+  }
+
+  body {
+    background-color: #111;
+  }
+
+  label,
+  h2,
+  h3,
+  h4,
+  p {
+    color: #eee;
+  }
+
+  .Form .FormDescription {
+    color: #aaa;
+  }
+
+  .Rating {
+    background-color: #303030;
+  }
+
+  .RatingSmallText {
+    color: #aaa;
+  }
+
+  a {
+    color: #9af;
+    text-decoration-color: #9af;
+  }
+
+  .RatingActionText {
+    color: #9af;
+    text-decoration-color: #9af;
+  }
+
+  .SectionSchedule {
+    background: #303030;
+  }
+
+  .Doc {
+    background: #222;
+  }
+
+  .SpacedSection {
+    background-color: #222;
+  }
+
+  button,
+  input[type="submit"],
+  input[type="button"] {
+    color: #eee;
+    background-color: #303030;
+  }
+
+  button:hover:not(:disabled),
+  input[type="submit"]:hover:not(:disabled),
+  input[type="button"]:hover:not(:disabled) {
+    background-color: #3a3a3a;
+  }
+
+  .Header {
+    background-color: #111a;
+    border-bottom: 1px solid #fff3;
+  }
+
+  .Header h1 a {
+    color: #eee;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    background-color: #4a4a4a;
+    color: #eee;
+  }
+
+  textarea {
+    background-color: #4a4a4a;
+    color: #eee;
+  }
 }
