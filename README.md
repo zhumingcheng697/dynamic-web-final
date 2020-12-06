@@ -1,4 +1,4 @@
-# Rate My Classes
+# [Rate My Classes](https://unruffled-bose-857315.netlify.app/)
 
 **McCoy Zhu’s Final Project for Fall 2020 Dynamic Web App (DM-UY 3193)**
 
@@ -18,63 +18,63 @@
 
 - Redirect user to home page or profile page if class or user is not found
 
-## Front-End Routes
+## [Front-End](https://unruffled-bose-857315.netlify.app/) Routes
 
-- ### `/`
+- ### [`/`](https://unruffled-bose-857315.netlify.app/)
 
   Landing page where users can type in and search for classes
 
-- ### `/sign-in`
+- ### [`/sign-in`](https://unruffled-bose-857315.netlify.app/sign-in)
 
   Sign-in page
 
-- ### `/sign-up`
+- ### [`/sign-up`](https://unruffled-bose-857315.netlify.app/sign-up)
 
   Sign-up page
 
-- ### `/class/:classCode`
+- ### [`/class/:classCode`](https://unruffled-bose-857315.netlify.app/class/DM-UY%203193)
 
   Class ratings page for class with class code `classCode`
 
   > Users will also be able to post, edit, and delete ratings on this page.
 
-- ### `/user`
+- ### [`/user`](https://unruffled-bose-857315.netlify.app/user)
 
   Profile page for the signed-in user
 
-  > Users will also be able to edit and delete previous ratings on this page.
+  > Users will also be able to edit and delete their previous ratings on this page.
 
-- ### `/user/:uid`
+- ### [`/user/:uid`](https://unruffled-bose-857315.netlify.app/user/KExgbP55G9aZqDpMSpIhERU87H52)
 
   Profile page for use with user id `uid`
 
-- ### `/update`
+- ### [`/update`](https://unruffled-bose-857315.netlify.app/update)
 
   Profile update page where the signed-in user can update their profile information
 
 > Routing logic depending on whether the user has signed in or whether the search for a class or a user failed not detailed here.
 
-## Back-End Endpoints
+## [Back-End](https://stark-basin-35300.herokuapp.com/) Endpoints
 
-- ### `/class/:classCode`
+- ### [`/class/:classCode`](https://stark-basin-35300.herokuapp.com/class/DM-UY%203193)
 
   Get the information of the class with class code `classCode`
 
   > This is the only API that interfaces directly with Puppeteer. When this API is called, it first checks if a valid `classCode` is given through Regex and accessing the `subjectCatalog` collection on the database. If the `classCode` is valid, it then passes the subject information retreved from `subjectCatalog` and check if the class already exists in the `classes` collection on the database. If the class exists, the class information will be sent in the response along with the subject information. If the class does not exist, or if the class exists but is updated longer than 48 hours ago, the API will then attemp to scrape the latest class information using Puppeteer and updates the database using the latest information.
 
-- ### `/user/:uid`
+- ### [`/user/:uid`](https://stark-basin-35300.herokuapp.com/user/KExgbP55G9aZqDpMSpIhERU87H52)
 
   Get the information of the user with user id `uid`
 
-- ### `/rating/:id`
+- ### [`/rating/:id`](https://stark-basin-35300.herokuapp.com/rating/09fvEPSzf4XLdPdWie6y)
 
   Get the information of the rating with document id `id`
 
-- ### `/ratings/class/:classCode`
+- ### [`/ratings/class/:classCode`](https://stark-basin-35300.herokuapp.com/ratings/class/DM-UY%203193)
 
   Get all the ratings for the class with class code `classCode`
 
-- ### `/ratings/user/:uid`
+- ### [`/ratings/user/:uid`](https://stark-basin-35300.herokuapp.com/ratings/user/KExgbP55G9aZqDpMSpIhERU87H52)
 
   Get all the ratings from the user with user id `uid`
 
