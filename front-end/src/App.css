@@ -131,8 +131,8 @@ p {
 }
 
 .Rating {
-  background-color: #e1e1e1;
-  border-radius: 8px;
+  background-color: #ddd;
+  border-radius: 12px;
   margin: 20px 0;
   padding: 5px 20px;
   transition: background-color 0.5s;
@@ -201,8 +201,8 @@ a:not(:hover) {
 .SectionSchedule {
   margin: 10px;
   min-width: 135px;
-  background: #e1e1e1;
-  border-radius: 8px;
+  background: #ddd;
+  border-radius: 12px;
   padding: 5px 25px;
   text-align: center;
   transition: background 0.5s;
@@ -277,6 +277,11 @@ textarea {
   transition: color 0.5s, background-color 0.5s;
 }
 
+textarea::placeholder {
+  color: #777;
+  transition: color 0.5s;
+}
+
 .Flex {
   display: flex;
   flex-wrap: wrap;
@@ -299,7 +304,7 @@ textarea {
 
 .Doc {
   background: #eaeaea;
-  border-radius: 8px;
+  border-radius: 18px;
   margin: 30px 15px;
   padding: 0 20px;
   width: min(100%, 700px);
@@ -337,6 +342,7 @@ form {
   min-height: 100vh;
   position: fixed;
   background: #000a;
+  transition: background 0.5s;
   top: 0;
   left: 0;
   z-index: 30;
@@ -358,7 +364,7 @@ form {
 
 .SpacedSection {
   background-color: #eaeaea;
-  border-radius: 8px;
+  border-radius: 12px;
   margin: 20px 0;
   padding: 5px 20px;
   transition: background-color 0.5s;
@@ -367,7 +373,7 @@ form {
 button,
 input[type="submit"],
 input[type="button"] {
-  background-color: #e1e1e1;
+  background-color: #ddd;
   color: #000;
   border: none;
   border-radius: 8px;
@@ -385,7 +391,7 @@ input[type="button"] {
 button:hover:not(:disabled),
 input[type="submit"]:hover:not(:disabled),
 input[type="button"]:hover:not(:disabled) {
-  background-color: #dadada;
+  background-color: #d1d1d1;
   transition: background-color 0.5s;
 }
 
@@ -483,7 +489,7 @@ nav * {
   }
 
   .Doc {
-    background: #222;
+    background: #1a1a1a;
   }
 
   .SpacedSection {
@@ -500,7 +506,11 @@ nav * {
   button:hover:not(:disabled),
   input[type="submit"]:hover:not(:disabled),
   input[type="button"]:hover:not(:disabled) {
-    background-color: #373737;
+    background-color: #3a3a3a;
+  }
+
+  .RatingMask {
+    background: #444a;
   }
 
   .Header {
@@ -515,12 +525,16 @@ nav * {
   input[type="text"],
   input[type="email"],
   input[type="password"] {
-    background-color: #4a4a4a;
+    background-color: #505050;
     color: #eee;
   }
 
   textarea {
-    background-color: #4a4a4a;
+    background-color: #505050;
     color: #eee;
+  }
+
+  textarea::placeholder {
+    color: #aaa;
   }
 }
