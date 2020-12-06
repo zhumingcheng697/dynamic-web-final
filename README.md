@@ -60,6 +60,8 @@
 
   Get the information of the class with class code `classCode`
 
+  > This is the only API that interfaces directly with Puppeteer. When this API is called, it first checks if a valid `classCode` is given through Regex and accessing the `subjectCatalog` collection on the database. If the `classCode` is valid, it then passes the subject information retreved from `subjectCatalog` and check if the class already exists in the `classes` collection on the database. If the class exists, the class information will be sent in the response along with the subject information. If the class does not exist, or if the class exists but is updated longer than 48 hours ago, the API will then attemp to scrape the latest class information using Puppeteer and updates the database using the latest information.
+
 - ### `/user/:uid`
 
   Get the information of the user with user id `uid`
@@ -108,7 +110,7 @@
 
   **Document ID:** school code
 
-  Stores school codes, school names, and a catalog of subject codes and matching subject names.
+  Stores school codes, school names, and a catalog of subject codes and matching subject names scraped from [Albert](https://sis.nyu.edu).
 
 - ### `users`
 
@@ -117,10 +119,6 @@
   Stores user name, email, major, and preference for showing or hiding email for each user.
 
 ## Firestore Security Rules
-
-- User documents under `users` collection can be accessed by the user signed in with that account on the front end for sign up and profile update purposes.
-
-- All documents can be accessed by the (pseudo) "admin" user signed in on the back end.
 
 ```
 match /databases/{database}/documents {
@@ -133,3 +131,29 @@ match /databases/{database}/documents {
   }
 }
 ```
+
+- User documents under `users` collection can be accessed by the same user signed in with that account on the front end for sign up and profile update purposes.
+
+- All documents can be accessed by the (pseudo) "admin" user signed in on the back end.
+
+## Known Issues
+
+- Back-end server may takes longer to boot up due to the big 400MB+ slug size (which is cause by having Puppeteer as a node dependency and having an extra [buildpack for Puppeteer](https://github.com/jontewks/puppeteer-heroku-buildpack))
+
+  > To mitigate this issue, the front-end website now hits the back-end server every 10 minutues to keep the back end alive, but the boot time may still be significantly slower on the first visit after the tab is closed.
+
+- If the information of a class has not been “cached” on the database, scraping that data on-demand can take up to a minute or so.
+
+  > Because coursicle uses client-side rendering and often has content that only load on-demand, using conventional methods like `axios` and some HTML parser is not going to work, so I had to use Puppeteer.
+
+- Editing and deleting ratings do not affect the overall rating of the class until you reload the page.
+
+  > This can be fixed by having an extra read from the back end, which doesn’t seem necessary, or adding extra information to server’s response, which will also require some complicated computation logic on the front end and is not ideal.
+
+- Deleting ratings is computationally expensive.
+
+  > Because arrays and objects are reference types in JavaScript and React `useState` does not update views unless the reference of a reference type state variable is changed, deleting is implemented through array slicing and copying, which takes linear time.
+
+- Error messages may not be as descriptive.
+
+  > Because of the lack of knowledge of what kinds of errors Firebase may throw, only a general “Oops. Something went wrong.” error message will appear.

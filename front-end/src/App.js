@@ -205,7 +205,11 @@ function App() {
               )}
             </Route>
             <Route exact path="/user">
-              {user ? <ProfilePage user={user} /> : <Redirect to="/sign-in" />}
+              {user ? (
+                <Redirect to={{ pathname: `/user/${user.uid}` }} />
+              ) : (
+                <Redirect to="/sign-in" />
+              )}
             </Route>
             <Route exact path="/user/:uid">
               <ProfilePage user={user} />
