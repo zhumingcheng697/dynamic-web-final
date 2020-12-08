@@ -13,10 +13,13 @@ function ClassPage({ user, setRedirect }) {
   const [ratings, setRatings] = useState([]);
   const [posting, setPosting] = useState(false);
   const [newRatings, setNewRatings] = useState([]);
+  const [firstRatingsLoaded, setFirstRatingsLoaded] = useState(false);
   const [allRatingsLoaded, setAllRatingsLoaded] = useState(false);
 
   useEffect(() => {
-    setRedirect(null);
+    setRedirect((redirect) => {
+      return redirect === null ? redirect : null;
+    });
   }, [setRedirect]);
 
   useEffect(() => {
@@ -48,13 +51,15 @@ function ClassPage({ user, setRedirect }) {
   }, [user, classCode, classData, history]);
 
   useEffect(() => {
-    if (!ratings.length && !allRatingsLoaded) {
+    if (!ratings.length && !firstRatingsLoaded && !allRatingsLoaded) {
       axios
         .get(
-          `https://${process.env.REACT_APP_HEROKU_APP_NAME}.herokuapp.com/ratings/class/${classCode}`
+          `https://${process.env.REACT_APP_HEROKU_APP_NAME}.herokuapp.com/ratings/class/${classCode}?maxAmount=${process.env.REACT_APP_RATINGS_LOAD_MAX}`
         )
         .then((res) => {
-          if (!res.data.length) {
+          if (
+            res.data.length !== parseInt(process.env.REACT_APP_RATINGS_LOAD_MAX)
+          ) {
             setAllRatingsLoaded(true);
           }
           setRatings((ratings) => ratings.concat(res.data));
@@ -62,9 +67,12 @@ function ClassPage({ user, setRedirect }) {
         .catch((e) => {
           console.error(e);
           setAllRatingsLoaded(true);
+        })
+        .finally(() => {
+          setFirstRatingsLoaded(true);
         });
     }
-  }, [classCode, ratings, allRatingsLoaded]);
+  }, [classCode, ratings, firstRatingsLoaded, allRatingsLoaded]);
 
   if (classData === null) {
     return (
@@ -139,6 +147,7 @@ function ClassPage({ user, setRedirect }) {
                 />
               ) : null
             )}
+
             {ratings.map((rating, i) =>
               rating.id ? (
                 <RatingByClass
@@ -150,6 +159,38 @@ function ClassPage({ user, setRedirect }) {
                   index={i}
                 />
               ) : null
+            )}
+
+            {allRatingsLoaded ? null : (
+              <button
+                className="Centered"
+                type="button"
+                onClick={() => {
+                  const millis = ratings.length
+                    ? ratings[ratings.length - 1].postedAt
+                    : Date.now();
+
+                  axios
+                    .get(
+                      `https://${process.env.REACT_APP_HEROKU_APP_NAME}.herokuapp.com/ratings/class/${classCode}?maxAmount=${process.env.REACT_APP_RATINGS_LOAD_MAX}&beforeMillis=${millis}`
+                    )
+                    .then((res) => {
+                      if (
+                        res.data.length !==
+                        parseInt(process.env.REACT_APP_RATINGS_LOAD_MAX)
+                      ) {
+                        setAllRatingsLoaded(true);
+                      }
+                      setRatings((ratings) => ratings.concat(res.data));
+                    })
+                    .catch((e) => {
+                      console.error(e);
+                      setAllRatingsLoaded(true);
+                    });
+                }}
+              >
+                Load more ratings
+              </button>
             )}
           </>
         ) : (

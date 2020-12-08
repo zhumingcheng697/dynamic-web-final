@@ -9,6 +9,7 @@ function ProfilePage({ user }) {
   const { uid } = useParams();
   const [userInfo, setUserInfo] = useState({});
   const [ratings, setRatings] = useState([]);
+  const [firstRatingsLoaded, setFirstRatingsLoaded] = useState(false);
   const [allRatingsLoaded, setAllRatingsLoaded] = useState(false);
 
   useEffect(() => {
@@ -17,7 +18,7 @@ function ProfilePage({ user }) {
         .get(
           `https://${
             process.env.REACT_APP_HEROKU_APP_NAME
-          }.herokuapp.com/user/${uid || user.uid}`
+          }.herokuapp.com/user/${uid || user.uid}?maxAmount=100`
         )
         .then((res) => {
           setUserInfo(res.data && res.data.displayName ? res.data : null);
@@ -50,15 +51,19 @@ function ProfilePage({ user }) {
   }, [user, uid, userInfo, history]);
 
   useEffect(() => {
-    if (!ratings.length && !allRatingsLoaded) {
+    if (!ratings.length && !firstRatingsLoaded && !allRatingsLoaded) {
       axios
         .get(
           `https://${
             process.env.REACT_APP_HEROKU_APP_NAME
-          }.herokuapp.com/ratings/user/${uid || user.uid}`
+          }.herokuapp.com/ratings/user/${uid || user.uid}?maxAmount=${
+            process.env.REACT_APP_RATINGS_LOAD_MAX
+          }`
         )
         .then((res) => {
-          if (!res.data.length) {
+          if (
+            res.data.length !== parseInt(process.env.REACT_APP_RATINGS_LOAD_MAX)
+          ) {
             setAllRatingsLoaded(true);
           }
           setRatings((ratings) => ratings.concat(res.data));
@@ -66,9 +71,12 @@ function ProfilePage({ user }) {
         .catch((e) => {
           console.error(e);
           setAllRatingsLoaded(true);
+        })
+        .finally(() => {
+          setFirstRatingsLoaded(true);
         });
     }
-  }, [user, uid, allRatingsLoaded, ratings]);
+  }, [user, uid, firstRatingsLoaded, allRatingsLoaded, ratings]);
 
   if (userInfo === null) {
     return (
@@ -116,6 +124,7 @@ function ProfilePage({ user }) {
                     userInfo.displayName
                   }`}
             </h3>
+
             {ratings.map((rating, i) =>
               rating.id ? (
                 <RatingByUser
@@ -127,6 +136,44 @@ function ProfilePage({ user }) {
                   index={i}
                 />
               ) : null
+            )}
+
+            {allRatingsLoaded ? null : (
+              <button
+                className="Centered"
+                type="button"
+                onClick={() => {
+                  const millis = ratings.length
+                    ? ratings[ratings.length - 1].postedAt
+                    : Date.now();
+
+                  axios
+                    .get(
+                      `https://${
+                        process.env.REACT_APP_HEROKU_APP_NAME
+                      }.herokuapp.com/ratings/user/${
+                        uid || user.uid
+                      }?maxAmount=${
+                        process.env.REACT_APP_RATINGS_LOAD_MAX
+                      }&beforeMillis=${millis}`
+                    )
+                    .then((res) => {
+                      if (
+                        res.data.length !==
+                        parseInt(process.env.REACT_APP_RATINGS_LOAD_MAX)
+                      ) {
+                        setAllRatingsLoaded(true);
+                      }
+                      setRatings((ratings) => ratings.concat(res.data));
+                    })
+                    .catch((e) => {
+                      console.error(e);
+                      setAllRatingsLoaded(true);
+                    });
+                }}
+              >
+                Load more ratings
+              </button>
             )}
           </>
         ) : (
