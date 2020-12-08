@@ -9,7 +9,8 @@ function ProfilePage({ user }) {
   const { uid } = useParams();
   const [userInfo, setUserInfo] = useState({});
   const [ratings, setRatings] = useState([]);
-  const [firstRatingsLoaded, setFirstRatingsLoaded] = useState(false);
+  const [loadingRating, setLoadingRating] = useState(false);
+  const [shouldLoad, setShouldLoad] = useState(true);
   const [allRatingsLoaded, setAllRatingsLoaded] = useState(false);
 
   useEffect(() => {
@@ -51,14 +52,22 @@ function ProfilePage({ user }) {
   }, [user, uid, userInfo, history]);
 
   useEffect(() => {
-    if (!ratings.length && !firstRatingsLoaded && !allRatingsLoaded) {
+    setShouldLoad(false);
+
+    if (!allRatingsLoaded && shouldLoad && !loadingRating) {
+      setLoadingRating(true);
+
+      const millis = ratings.length
+        ? ratings[ratings.length - 1].postedAt
+        : Date.now();
+
       axios
         .get(
           `https://${
             process.env.REACT_APP_HEROKU_APP_NAME
           }.herokuapp.com/ratings/user/${uid || user.uid}?maxAmount=${
             process.env.REACT_APP_RATINGS_LOAD_MAX
-          }`
+          }&beforeMillis=${millis}`
         )
         .then((res) => {
           if (
@@ -73,10 +82,10 @@ function ProfilePage({ user }) {
           setAllRatingsLoaded(true);
         })
         .finally(() => {
-          setFirstRatingsLoaded(true);
+          setLoadingRating(false);
         });
     }
-  }, [user, uid, firstRatingsLoaded, allRatingsLoaded, ratings]);
+  }, [user, uid, allRatingsLoaded, ratings, shouldLoad, loadingRating]);
 
   if (userInfo === null) {
     return (
@@ -142,37 +151,12 @@ function ProfilePage({ user }) {
               <button
                 className="Centered"
                 type="button"
+                disabled={!!loadingRating}
                 onClick={() => {
-                  const millis = ratings.length
-                    ? ratings[ratings.length - 1].postedAt
-                    : Date.now();
-
-                  axios
-                    .get(
-                      `https://${
-                        process.env.REACT_APP_HEROKU_APP_NAME
-                      }.herokuapp.com/ratings/user/${
-                        uid || user.uid
-                      }?maxAmount=${
-                        process.env.REACT_APP_RATINGS_LOAD_MAX
-                      }&beforeMillis=${millis}`
-                    )
-                    .then((res) => {
-                      if (
-                        res.data.length !==
-                        parseInt(process.env.REACT_APP_RATINGS_LOAD_MAX)
-                      ) {
-                        setAllRatingsLoaded(true);
-                      }
-                      setRatings((ratings) => ratings.concat(res.data));
-                    })
-                    .catch((e) => {
-                      console.error(e);
-                      setAllRatingsLoaded(true);
-                    });
+                  setShouldLoad(true);
                 }}
               >
-                Load more ratings
+                {loadingRating ? "Loading..." : "Load More"}
               </button>
             )}
           </>

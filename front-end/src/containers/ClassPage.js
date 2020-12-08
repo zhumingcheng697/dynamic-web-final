@@ -13,7 +13,8 @@ function ClassPage({ user, setRedirect }) {
   const [ratings, setRatings] = useState([]);
   const [posting, setPosting] = useState(false);
   const [newRatings, setNewRatings] = useState([]);
-  const [firstRatingsLoaded, setFirstRatingsLoaded] = useState(false);
+  const [loadingRating, setLoadingRating] = useState(false);
+  const [shouldLoad, setShouldLoad] = useState(true);
   const [allRatingsLoaded, setAllRatingsLoaded] = useState(false);
 
   useEffect(() => {
@@ -51,10 +52,18 @@ function ClassPage({ user, setRedirect }) {
   }, [user, classCode, classData, history]);
 
   useEffect(() => {
-    if (!ratings.length && !firstRatingsLoaded && !allRatingsLoaded) {
+    setShouldLoad(false);
+
+    if (!allRatingsLoaded && shouldLoad && !loadingRating) {
+      setLoadingRating(true);
+
+      const millis = ratings.length
+        ? ratings[ratings.length - 1].postedAt
+        : Date.now();
+
       axios
         .get(
-          `https://${process.env.REACT_APP_HEROKU_APP_NAME}.herokuapp.com/ratings/class/${classCode}?maxAmount=${process.env.REACT_APP_RATINGS_LOAD_MAX}`
+          `https://${process.env.REACT_APP_HEROKU_APP_NAME}.herokuapp.com/ratings/class/${classCode}?maxAmount=${process.env.REACT_APP_RATINGS_LOAD_MAX}&beforeMillis=${millis}`
         )
         .then((res) => {
           if (
@@ -69,10 +78,10 @@ function ClassPage({ user, setRedirect }) {
           setAllRatingsLoaded(true);
         })
         .finally(() => {
-          setFirstRatingsLoaded(true);
+          setLoadingRating(false);
         });
     }
-  }, [classCode, ratings, firstRatingsLoaded, allRatingsLoaded]);
+  }, [classCode, ratings, allRatingsLoaded, shouldLoad, loadingRating]);
 
   if (classData === null) {
     return (
@@ -165,31 +174,12 @@ function ClassPage({ user, setRedirect }) {
               <button
                 className="Centered"
                 type="button"
+                disabled={!!loadingRating}
                 onClick={() => {
-                  const millis = ratings.length
-                    ? ratings[ratings.length - 1].postedAt
-                    : Date.now();
-
-                  axios
-                    .get(
-                      `https://${process.env.REACT_APP_HEROKU_APP_NAME}.herokuapp.com/ratings/class/${classCode}?maxAmount=${process.env.REACT_APP_RATINGS_LOAD_MAX}&beforeMillis=${millis}`
-                    )
-                    .then((res) => {
-                      if (
-                        res.data.length !==
-                        parseInt(process.env.REACT_APP_RATINGS_LOAD_MAX)
-                      ) {
-                        setAllRatingsLoaded(true);
-                      }
-                      setRatings((ratings) => ratings.concat(res.data));
-                    })
-                    .catch((e) => {
-                      console.error(e);
-                      setAllRatingsLoaded(true);
-                    });
+                  setShouldLoad(true);
                 }}
               >
-                Load more ratings
+                {loadingRating ? "Loading..." : "Load More"}
               </button>
             )}
           </>
