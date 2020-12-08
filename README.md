@@ -14,6 +14,8 @@
 
 - Allow users to post only 1 rating for each class
 
+- Only load limited amount of ratings to optimize network usage and automatically load more when scrolled to the bottom of the page
+
 - Redirect user back to the class page that they left after sign-in / sign-up
 
 - Redirect user to home page or profile page if class or user is not found
