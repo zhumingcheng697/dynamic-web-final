@@ -18,6 +18,19 @@ function ClassPage({ user, setRedirect }) {
   const [allRatingsLoaded, setAllRatingsLoaded] = useState(false);
 
   useEffect(() => {
+    document.addEventListener("scroll", () => {
+      const scrollBottom =
+        document.documentElement.scrollHeight -
+        window.innerHeight -
+        document.documentElement.scrollTop;
+
+      if (scrollBottom < 1) {
+        setShouldLoad(true);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
     setRedirect((redirect) => {
       return redirect === null ? redirect : null;
     });
