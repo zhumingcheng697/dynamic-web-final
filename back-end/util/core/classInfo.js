@@ -65,9 +65,8 @@ async function getClassInfoByCode(classCode, dev = undefined) {
               const val = nodes[1].textContent;
 
               if (key && val) {
-                res[
-                  key.toLowerCase().replace(/\s+/g, "-").replace(/\./g, "")
-                ] = val.replace(/^\s+|\s+$|\n/g, "");
+                res[key.toLowerCase().replace(/\s+/g, "-").replace(/\./g, "")] =
+                  val.replace(/^\s+|\s+$|\n/g, "");
               }
             }
           }
@@ -105,7 +104,7 @@ async function getClassInfoByCode(classCode, dev = undefined) {
  * @returns {Promise<object>}
  */
 async function getClassInfoByStr(classCode, dev = undefined) {
-  return await getClassInfoByCode(parseClassCode(classCode, dev));
+  return await getClassInfoByCode(parseClassCode(classCode), dev);
 }
 
 module.exports = { getClassInfoByCode, getClassInfoByStr };

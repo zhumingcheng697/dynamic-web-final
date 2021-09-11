@@ -134,10 +134,11 @@ async function getClassScheduleByCode(classCode, dev = undefined) {
  * Gets the schedule of the class from coursicle
  *
  * @param {string} classCode
+ * @param {boolean} dev
  * @returns {Promise<object[]>}
  */
-async function getClassScheduleByStr(classCode) {
-  return await getClassScheduleByCode(parseClassCode(classCode));
+async function getClassScheduleByStr(classCode, dev = undefined) {
+  return await getClassScheduleByCode(parseClassCode(classCode), dev);
 }
 
 module.exports = { getClassScheduleByCode, getClassScheduleByStr };
