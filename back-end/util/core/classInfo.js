@@ -1,6 +1,7 @@
 const puppeteer = require("puppeteer-extra");
 const parseClassCode = require("../helpers/ClassCode").parse;
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
+const solve = require("../helpers/solve");
 puppeteer.use(StealthPlugin());
 
 /**
@@ -31,7 +32,14 @@ async function getClassInfoByCode(classCode, dev = undefined) {
 
   const browser = await puppeteer.launch({
     headless: !dev,
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    args: [
+      "--no-sandbox",
+      "--disable-dev-shm-usage",
+      "--disable-web-security",
+      "--disable-features=IsolateOrigins",
+      " --disable-site-isolation-trials",
+      "--disable-setuid-sandbox",
+    ],
   });
 
   try {
@@ -40,6 +48,21 @@ async function getClassInfoByCode(classCode, dev = undefined) {
     await page.goto(
       `https://www.coursicle.com/nyu/courses/${subjectCode.toUpperCase()}${schoolCode.toUpperCase()}/${classNumber.toUpperCase()}/`
     );
+
+    await page.waitForFunction(
+      () =>
+        document.querySelectorAll(
+          'iframe[src*="api2/anchor"], h1#itemViewHeader'
+        ).length
+    );
+
+    const needSolving = await page.evaluate(() => {
+      return !!document.querySelector('iframe[src*="api2/anchor"]');
+    });
+
+    if (needSolving) {
+      await solve(page);
+    }
 
     const classInfo = await page.evaluate(
       (subjectCode, schoolCode, classNumber) => {

@@ -1,4 +1,4 @@
-# [Rate My Classes](https://unruffled-bose-857315.netlify.app/)
+# [Rate My Classes](https://rate-my-classes.netlify.app/)
 
 **McCoy Zhu’s Final Project for Fall 2020 Dynamic Web App (DM-UY 3193)**
 
@@ -20,37 +20,37 @@
 
 - Redirect user to home page or profile page if class or user is not found
 
-## [Front-End](https://unruffled-bose-857315.netlify.app/) Routes
+## [Front-End](https://rate-my-classes.netlify.app/) Routes
 
-- ### [`/`](https://unruffled-bose-857315.netlify.app/)
+- ### [`/`](https://rate-my-classes.netlify.app/)
 
   Landing page where users can type in and search for classes
 
-- ### [`/sign-in`](https://unruffled-bose-857315.netlify.app/sign-in)
+- ### [`/sign-in`](https://rate-my-classes.netlify.app/sign-in)
 
   Sign-in page
 
-- ### [`/sign-up`](https://unruffled-bose-857315.netlify.app/sign-up)
+- ### [`/sign-up`](https://rate-my-classes.netlify.app/sign-up)
 
   Sign-up page
 
-- ### [`/class/:classCode`](https://unruffled-bose-857315.netlify.app/class/DM-UY%203193)
+- ### [`/class/:classCode`](https://rate-my-classes.netlify.app/class/DM-UY%203193)
 
   Class ratings page for class with class code `classCode`
 
   > Users will also be able to post, edit, and delete ratings on this page.
 
-- ### [`/user`](https://unruffled-bose-857315.netlify.app/user)
+- ### [`/user`](https://rate-my-classes.netlify.app/user)
 
   Profile page for the signed-in user
 
   > Users will also be able to edit and delete their previous ratings on this page.
 
-- ### [`/user/:uid`](https://unruffled-bose-857315.netlify.app/user/KExgbP55G9aZqDpMSpIhERU87H52)
+- ### [`/user/:uid`](https://rate-my-classes.netlify.app/user/KExgbP55G9aZqDpMSpIhERU87H52)
 
   Profile page for use with user id `uid`
 
-- ### [`/update`](https://unruffled-bose-857315.netlify.app/update)
+- ### [`/update`](https://rate-my-classes.netlify.app/update)
 
   Profile update page where the signed-in user can update their profile information
 
